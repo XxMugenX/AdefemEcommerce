@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Thank You</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: #fffaf4;
+            color: #3b2f2f;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+            text-align: center;
+        }
+
+        .container h1 {
+            color: #42c474;
+            margin-bottom: 20px;
+        }
+
+        .container p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .countdown {
+            font-weight: bold;
+            font-size: 20px;
+            display: inline-block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .countdown.animate {
+            transform: scale(1.4);
+            opacity: 0.5;
+        }
+
+        .footer {
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="index.html">
+                <img src="./img/img32.png" alt="Logo" class="logo"
+                    style="height: 60px; width: 80px; background-color: transparent;" />
+            </a>
+            <a href="index.html">Home</a>
+            <a href="bookings.html">Dashboard</a>
+        </div>
+        <div class="navbar-right">
+            <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
+            <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
+            <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+        </div>
+    </div>
+
+    <!-- Thank You Container -->
+    <div class="container">
+        <h1>Thank You for Shopping with Us!</h1>
+        <p>
+            Your order has been successfully placed.<br />
+            You’ll be redirected to the homepage in
+            <span id="countdown" class="countdown">15</span> seconds.
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+                    <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                    <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                    <li><button onclick="logout()"
+                            style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                                class="fa-solid fa-power-off"></i>Logout</button></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> info@example.com</p>
+                <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+                <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Set year
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        // Animated countdown
+        let countdown = 15;
+        const countdownEl = document.getElementById("countdown");
+
+        const timer = setInterval(() => {
+            countdown--;
+            countdownEl.textContent = countdown;
+
+            // Animate countdown
+            countdownEl.classList.add("animate");
+            setTimeout(() => {
+                countdownEl.classList.remove("animate");
+            }, 300);
+
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+
+        const logout = async () => {
+                await localStorage.removeItem('authToken');
+                await sessionStorage.removeItem('authToken');
+                window.location.href = "login.html"
+            }
+    </script>
+</body>
+
+</html>

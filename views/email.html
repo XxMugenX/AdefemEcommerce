@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Email Us</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .navbar-left a,
+        .navbar-right a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #3b2f2f;
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #d4b17a;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .notification {
+            display: none;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .notification.success {
+            background-color: #42c474;
+            color: white;
+        }
+
+        .notification.error {
+            background-color: #b94b4b;
+            color: white;
+        }
+
+        .footer {
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-left,
+            .navbar-right {
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 8px;
+            }
+
+            .footer-content {
+            flex-direction: column;
+            gap: 20px;
+        }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px;background-color: transparent;" /></a>
+            <a href="index.html">Home</a>
+            <a href="bookings.html">Dashboard</a>
+        </div>
+        <div class="navbar-right">
+            <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
+            <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
+            <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Email Us</h1>
+        <div id="notification" class="notification"></div>
+
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" required placeholder="example@email.com" />
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" required placeholder="Enter a short subject" />
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" required placeholder="Type your message here..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Send Message</button>
+        </form>
+    </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+                        <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                        <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                        <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                        <li><button onclick="logout()"
+                                style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                                    class="fa-solid fa-power-off"></i>Logout</button></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> info@example.com</p>
+                    <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+            </div>
+            </footer>
+
+    <script>
+        // Update Year
+            document.getElementById("year").textContent = new Date().getFullYear();
+        const notification = document.getElementById('notification');
+
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            setTimeout(() => notification.style.display = 'none', 3000);
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!email || !subject || !message) {
+                return showNotification("All fields are required", "error");
+            }
+
+            // Simulated API submission — replace with your real backend call
+            fetch('http://127.0.0.1:8001/api/contact/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, subject, message })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification("Message sent successfully", "success");
+                        document.getElementById('contactForm').reset();
+                    } else {
+                        showNotification("Failed to send message", "error");
+                    }
+                })
+                .catch(() => {
+                    showNotification("Something went wrong", "error");
+                });
+        }
+
+        const logout = async () => {
+                await localStorage.removeItem('authToken');
+                await sessionStorage.removeItem('authToken');
+                window.location.href = "login.html"
+            }
+    </script>
+</body>
+
+</html>

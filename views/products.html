@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Services</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+        
+        .footer {
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+
+
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+    
+        .navbar-left {
+            flex-shrink: 0;
+        }
+    
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+    
+        .navbar-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+    
+        .category-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .category-nav ul li a {
+            text-decoration: none;
+            padding: 10px 18px;
+            background: #f7f1e5;
+            color: #3b2f2f;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background-color 0.3s ease, color 0.3s ease;
+}
+    
+        .category-nav ul li a.active {
+            background-color: #d4b17a;
+            color: white;
+        }
+    
+        .navbar-left a,
+        .navbar-right a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+    
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+    
+        .cart-icon img {
+            width: 30px;
+            height: 30px;
+        }
+    
+        .cart-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+        }
+    
+        .cart-dropdown ul {
+            list-style: none;
+            padding: 10px;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            padding: 6px 0;
+        }
+    
+        .cart-item .name {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 10px;
+        }
+    
+        .cart-item .controls {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+    
+        .cart-item .controls button {
+            background: none;
+            border: 1px solid #ccc;
+            padding: 2px 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 3px;
+            color: #3b2f2f;
+        }
+    
+        .cart-item .remove-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #b94b4b;
+            margin-left: 6px;
+            cursor: pointer;
+        }
+    
+        .cart-dropdown button {
+            background-color: #d4b17a;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 0 0 6px 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+    
+        .notification {
+            display: none;
+            background-color: #d4b17a;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            margin: 10px 20px;
+            font-weight: bold;
+        }
+    
+        .notification.error {
+            background-color: #b94b4b;
+        }
+    
+        .notification.success {
+            background-color: #42c474;
+        }
+    
+        .service-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+    
+        .service-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+            border: 1px solid #f0e6da;
+        }
+    
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+    
+        .service-card h3 {
+            margin: 10px 0 5px;
+        }
+    
+        .service-card p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    
+        .price {
+            font-weight: bold;
+            color: #7a5f3d;
+            margin-bottom: 10px;
+        }
+    
+        .service-card button {
+            background-color: #d4b17a;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+    
+        /* ---------- Mobile Responsive ---------- */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+    
+            .navbar-left,
+            .navbar-right {
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 8px;
+            }
+    
+            .navbar-center {
+                justify-content: flex-start;
+                overflow-x: auto;
+                width: 100%;
+                margin: 10px 0;
+            }
+    
+            .category-nav ul {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+    
+            .service-list {
+                padding: 10px;
+            }
+    
+            .cart-dropdown {
+                right: 10px;
+            }
+
+            .footer-content {
+            /* position: absolute;
+            bottom: 0; */
+            flex-direction: column;
+            gap: 20px;
+        }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px; background-color: transparent;" /></a>
+            <a href="index.html" style="text-decoration: none;">Home</a>
+            <a href="bookings.html" style="text-decoration: none;">Dashboard</a>
+        </div>
+
+        <div class="navbar-center">
+            <div class="category-nav">
+                <ul id="categoryList"></ul>
+            </div>
+        </div>
+
+        <div class="navbar-right">
+            <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
+            <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
+            <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+            <div class="cart-icon" onclick="toggleCart()">
+                <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart Icon">
+                <div class="cart-dropdown" id="cartDropdown">
+                    <ul id="cartItems"></ul>
+                    <button onclick="placeOrder()">Order Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+    <div id="serviceList" class="service-list"></div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+                        <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                        <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                        <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                        <li><button onclick="logout()"
+                                style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                                    class="fa-solid fa-power-off"></i>Logout</button></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> info@example.com</p>
+                    <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+            </div>
+            </footer>
+
+    <script>
+        // Update Year
+            document.getElementById("year").textContent = new Date().getFullYear();
+        const notification = document.getElementById('notification');
+        const serviceList = document.getElementById('serviceList');
+        const cartDropdown = document.getElementById('cartDropdown');
+        const cartItems = document.getElementById('cartItems');
+        const categoryList = document.getElementById('categoryList');
+        let currentCategoryId = '';
+
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            setTimeout(() => notification.style.display = 'none', 3000);
+        }
+
+        function toggleCart() {
+            cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
+            if (cartDropdown.style.display === 'block') fetchCartItems();
+        }
+
+        function selectCategory(categoryId) {
+            currentCategoryId = categoryId;
+            fetchServices(categoryId);
+            const links = document.querySelectorAll('.category-link');
+            links.forEach(link => link.classList.remove('active'));
+            const selected = [...links].find(link => link.getAttribute('onclick').includes(categoryId));
+            if (selected) selected.classList.add('active');
+        }
+
+        async function fetchCategories() {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                const categories = await fetch('http://127.0.0.1:8001/api/categories', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }).then(res => res.json());
+
+                categoryList.innerHTML = `<li><a href="#" class="category-link active" onclick="selectCategory('')">All</a></li>`;
+
+                categories.forEach(cat => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="#" class="category-link" onclick="selectCategory('${cat._id}')">${cat.name}</a>`;
+                    categoryList.appendChild(li);
+                });
+            } catch {
+                showNotification('Failed to load categories', 'error');
+            }
+        }
+
+        async function fetchServices(categoryId = '') {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                const url = categoryId
+                    ? `http://127.0.0.1:8001/api/services?category=${categoryId}`
+                    : `http://127.0.0.1:8001/api/services`;
+                const services = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }).then(res => res.json());
+
+                serviceList.innerHTML = '';
+                services.forEach(service => {
+                    const card = document.createElement('div');
+                    card.className = 'service-card';
+                    card.innerHTML = `
+            <img src="http://127.0.0.1:8001/api/services/${service._id}/image" alt="${service.name}" />
+            <h3>${service.name}</h3>
+            <p>${service.description || 'No description available.'}</p>
+            <div class="price">£${service.price}</div>
+            <button onclick="addToCart('${service._id}')">Add to Cart</button>
+          `;
+                    serviceList.appendChild(card);
+                });
+            } catch {
+                showNotification('Failed to load services', 'error');
+            }
+        }
+
+        async function addToCart(serviceId) {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                await fetch('http://127.0.0.1:8001/api/carts/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ serviceId, quantity: 1 })
+                });
+                showNotification('Added to cart');
+                fetchCartItems();
+            } catch {
+                showNotification('Error adding to cart', 'error');
+            }
+        }
+
+        async function fetchCartItems() {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                const res = await fetch('http://127.0.0.1:8001/api/carts/', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }).then(res => res.json());
+
+                const items = res.items || [];
+                cartItems.innerHTML = '';
+                let subtotal = 0;
+
+                if (!items.length) {
+                    cartItems.innerHTML = '<li>No items in cart.</li>';
+                    return;
+                }
+
+                items.forEach(item => {
+                    const price = item.service?.price || 0;
+                    subtotal += price * item.quantity;
+                    const li = document.createElement('li');
+                    li.className = 'cart-item';
+                    li.innerHTML = `
+            <div class="name">${item.service?.name || 'Unnamed'}</div>
+            <div class="controls">
+              <button onclick="updateQuantity('${item.service?._id}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>−</button>
+              <span>${item.quantity}</span>
+              <button onclick="updateQuantity('${item.service?._id}', ${item.quantity + 1})">+</button>
+              <button class="remove-btn" onclick="removeFromCart('${item.service._id}')">×</button>
+            </div>
+          `;
+                    cartItems.appendChild(li);
+                });
+
+                const totalEl = document.createElement('li');
+                totalEl.innerHTML = `<strong>Total: £${subtotal}</strong>`;
+                cartItems.appendChild(totalEl);
+            } catch {
+                cartItems.innerHTML = '<li>Error loading cart.</li>';
+            }
+        }
+
+        async function updateQuantity(serviceId, quantity) {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                await fetch(`http://127.0.0.1:8001/api/carts/update`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ serviceId, quantity })
+                });
+                fetchCartItems();
+            } catch {
+                showNotification('Failed to update quantity', 'error');
+            }
+        }
+
+        async function removeFromCart(serviceId) {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                await fetch(`http://127.0.0.1:8001/api/carts/remove/${serviceId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                showNotification('Item removed from cart');
+                fetchCartItems();
+            } catch {
+                showNotification('Failed to remove item', 'error');
+            }
+        }
+
+        async function placeOrder() {
+            window.location.href = './order.html';
+        }
+
+        const logout = async () => {
+                await localStorage.removeItem('authToken');
+                await sessionStorage.removeItem('authToken');
+                window.location.href = "login.html"
+            }
+
+        fetchServices();
+        fetchCategories();
+    </script>
+     
+</body>
+
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Add New Service</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 0;
+            margin: 0;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 12px 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .main-nav a {
+            margin: 0 12px;
+            text-decoration: none;
+            color: #3b2f2f;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: #d4b17a;
+        }
+
+        .container {
+        max-width: 600px;
+        margin: auto;
+        margin-top: 20px;  
+        margin-bottom: 20px;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+        border: 1px solid #f0e6da;
+        }
+
+        .footer {
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+        h2 {
+        text-align: center;
+        color: #3b2f2f;
+        margin-bottom: 25px;
+        }
+
+        label {
+        display: block;
+        margin-top: 15px;
+        font-weight: 600;
+        color: #7a5f3d;
+        font-size: 14px;
+        }
+
+        input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background: #fffaf4;
+        font-size: 15px;
+        color: #3b2f2f;
+        }
+
+        #catDesc, #catName {
+        width: 96%;
+        }
+
+        button {
+        background-color: #d4b17a;
+        color: white;
+        padding: 12px;
+        margin-top: 25px;
+        border: none;
+        width: 100%;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        }
+
+        button:hover {
+        background-color: #ba975f;
+        }
+
+        .notification {
+        margin-top: 20px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 15px;
+        }
+
+        .success {
+        color: green;
+        }
+
+        .error {
+        color: red;
+        }
+
+        #newCategoryFields {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        background: #f9f2e8;
+        border-radius: 8px;
+        border: 1px dashed #d4b17a;
+        }
+
+        #newCategoryFields input,
+        #newCategoryFields textarea {
+        margin-top: 8px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    </head>
+    <body>
+        <header>
+            <div class="nav-container">
+                <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo"
+                        style="height: 60px; width: 80px; background-color: transparent;" /></a>
+                <nav class="main-nav">
+                    <a href="myorders.html">All Orders</a>
+                    <a href="calender.html">Calender</a>
+                    <a href="bookings.html">Bookings</a>
+                    <a href="addservices.html">Add Product</a>
+                </nav>
+            </div>
+            </header>
+    <div class="container">
+        <h2>Add New Products</h2>
+
+        <form id="serviceForm" enctype="multipart/form-data">
+
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="3" required></textarea>
+
+        <label for="price">Price (£):</label>
+        <input type="number" id="price" name="price" min="0" required />
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="">Loading categories...</option>
+            <option value="__new__">➕ Add New Category</option>
+        </select>
+
+        <div id="newCategoryFields">
+            <label for="catName">New Category Name:</label>
+            <input type="text" id="catName" />
+
+            <label for="catDesc">New Category Description:</label>
+            <textarea id="catDesc" rows="2"></textarea>
+
+            <button type="button" id="saveNewCategory">Save Category</button>
+            <p class="notification" id="catMessage"></p>
+        </div>
+
+        <label for="image">Product Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required />
+
+
+        <button type="submit">Add Product</button>
+        <p id="serviceMessage" class="notification" style="display:none;"></p>
+        <p class="notification" id="serviceMessage"></p>
+        </form>
+    </div>
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h4>About Us</h4>
+                            <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                            </p>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                                <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+                                <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                                <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                                <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                                <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                                <li><button onclick="logout()"
+                                        style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                                            class="fa-solid fa-power-off"></i>Logout</button></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Contact</h4>
+                            <p><i class="fas fa-envelope"></i> info@example.com</p>
+                            <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+                            <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-x-twitter"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+                    </div>
+                    </footer>
+
+    <script>
+        // Update Year
+            document.getElementById("year").textContent = new Date().getFullYear();
+        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        const categorySelect = document.getElementById('category');
+        const newCategoryFields = document.getElementById('newCategoryFields');
+        const catMessage = document.getElementById('catMessage');
+        const serviceMessage = document.getElementById('serviceMessage');
+
+        async function fetchCategories() {
+        try {
+            const res = await fetch('http://127.0.0.1:8001/api/categories', {
+            headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const data = await res.json();
+            categorySelect.innerHTML = '<option value="">Select Category</option>';
+            data.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat._id;
+            opt.textContent = cat.name;
+            categorySelect.appendChild(opt);
+            });
+            // Add option to create new category
+            const newOpt = document.createElement('option');
+            newOpt.value = '__new__';
+            newOpt.textContent = '➕ Add New Category';
+            categorySelect.appendChild(newOpt);
+        } catch {
+            categorySelect.innerHTML = '<option value="">Failed to load categories</option>';
+        }
+        }
+
+        fetchCategories();
+
+        // Show/hide new category input
+        categorySelect.addEventListener('change', () => {
+        if (categorySelect.value === '__new__') {
+            newCategoryFields.style.display = 'block';
+        } else {
+            newCategoryFields.style.display = 'none';
+        }
+        });
+
+        // Save new category and add to dropdown
+        document.getElementById('saveNewCategory').addEventListener('click', async () => {
+                const name = document.getElementById('catName').value.trim();
+                const description = document.getElementById('catDesc').value.trim();
+
+                if (!name || !description) {
+                    catMessage.textContent = 'Please fill in both fields.';
+                    catMessage.className = 'notification error';
+                    return;
+                }
+
+                catMessage.textContent = 'Saving...';
+                catMessage.className = 'notification';
+
+                try {
+                    const res = await fetch('http://127.0.0.1:8001/api/categories', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({ name, description })
+                    });
+
+                    const result = await res.json();
+
+                    if (res.ok) {
+                        catMessage.textContent = 'Category added!';
+                        catMessage.className = 'notification success';
+
+                        // Clear input fields and hide form
+                        document.getElementById('catName').value = '';
+                        document.getElementById('catDesc').value = '';
+                        newCategoryFields.style.display = 'none';
+
+                        // Refetch categories and auto-select the newly added one
+                        await fetchCategories();
+                        // Find the option matching new category
+                        const options = categorySelect.options;
+                        for (let i = 0; i < options.length; i++) {
+                            if (options[i].textContent === result.name) {
+                                categorySelect.selectedIndex = i;
+                                break;
+                            }
+                        }
+
+                    } else {
+                        catMessage.textContent = result.message || 'Error creating category.';
+                        catMessage.className = 'notification error';
+                    }
+                } catch {
+                    catMessage.textContent = 'Network error.';
+                    catMessage.className = 'notification error';
+                }
+            });
+
+
+        // Submit service
+        document.getElementById('serviceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = document.getElementById('serviceForm');
+            const formData = new FormData(form);
+
+            if (!formData.get('category') || formData.get('category') === '__new__') {
+                serviceMessage.textContent = 'Please select a valid category.';
+                serviceMessage.className = 'notification error';
+                return;
+            }
+
+            try {
+                const res = await fetch('http://127.0.0.1:8001/api/services', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: formData
+                });
+
+                const result = await res.json();
+                const serviceMessage = document.getElementById('serviceMessage');
+
+                if (res.ok) {
+                    serviceMessage.textContent = 'Service added successfully!';
+                    serviceMessage.style.display = 'block';
+                    serviceMessage.className = 'notification success';
+                    form.reset();
+                } else {
+                    serviceMessage.textContent = result.message || 'Failed to add service.';
+                    serviceMessage.style.display = 'block';
+                    serviceMessage.className = 'notification error';
+                }
+            } catch (err) {
+                const serviceMessage = document.getElementById('serviceMessage');
+                serviceMessage.textContent = 'Something went wrong!';
+                serviceMessage.style.display = 'block';
+                serviceMessage.className = 'notification error';
+            }
+        
+
+        });
+        const logout = async () => {
+                await localStorage.removeItem('authToken');
+                await sessionStorage.removeItem('authToken');
+                window.location.href = "login.html"
+            }
+    </script>
+    </body>
+    </html>

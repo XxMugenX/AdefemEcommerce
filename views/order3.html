@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Complete Order</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .navbar-right a,
+        .navbar-left a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .total {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #d4b17a;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .notification {
+            display: none;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .notification.success {
+            background-color: #42c474;
+            color: white;
+        }
+
+        .notification.error {
+            background-color: #b94b4b;
+            color: white;
+        }
+
+        .footer {
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+
+        @media (max-width: 600px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .total {
+                text-align: left;
+            }
+
+            .footer-content {
+            flex-direction: column;
+            gap: 20px;
+        }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo"
+                    style="height: 60px; width: 80px; background-color: transparent;" /></a>
+            <a href="index.html">Home</a>
+            <a href="bookings.html">Dashboard</a>
+        </div>
+        <div class="navbar-right">
+            <a href="appointment.html"><i class="fas fa-cut"></i> Services</a>
+            <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
+            <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Complete Your Order</h2>
+        <div id="notification" class="notification"></div>
+        <div id="cartContainer"></div>
+
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" required />
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" required />
+        </div>
+        <div class="form-group">
+            <label for="addressLine">Address Line</label>
+            <input type="text" id="addressLine" placeholder="Enter your address e.g 12 Agen Street, Behind UPSS Secondary School" required />
+        </div>
+        
+        <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" name="country" required>
+                <option value="">Select Country</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Kenya">Kenya</option>
+                <option value="South Africa">South Africa</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <select id="state" name="state" required>
+                <option value="">Select State</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" required />
+        </div>
+
+        <div class="form-group">
+            <label for="postalCode">Postal Code</label>
+            <input type="text" id="postalCode" required />
+        </div>
+            
+            <label for="paymentMethod">Payment Method</label>
+            <select id="paymentMethod">
+                <option value="paystack" selected>Paystack</option>
+                <!-- <option value="manual">Manual Transfer</option> -->
+            </select>
+        </div>
+
+        <button class="btn-submit" onclick="submitOrder()">Proceed to payment</button>
+    </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="products.html"><i class="fas fa-cut"></i> Products</a></li>
+                        <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                        <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> info@example.com</p>
+                    <p><i class="fas fa-phone-alt"></i> +234 801 234 5678</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 12 Agen Street, Lagos, Nigeria</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+            </div>
+            </footer>
+
+    <script>
+        // Update Year
+            document.getElementById("year").textContent = new Date().getFullYear();
+    const statesByCountry = {
+            "Nigeria": [
+        "Abuja", "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue",
+        "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "Gombe",
+        "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos",
+        "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers",
+        "Sokoto", "Taraba", "Yobe", "Zamfara"
+        ],
+        "Ghana": ["Accra", "Ashanti", "Volta", "Western"],
+        "Kenya": ["Nairobi", "Mombasa", "Kisumu"],
+        "South Africa": ["Gauteng", "Western Cape", "KwaZulu-Natal"]
+    };
+
+            document.getElementById('country').addEventListener('change', function () {
+    const selectedCountry = this.value;
+            const states = statesByCountry[selectedCountry] || [];
+            const stateSelect = document.getElementById('state');
+
+                    stateSelect.innerHTML = '<option value="">Select State</option>';
+    states.forEach(state => {
+        const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            stateSelect.appendChild(option);
+    });
+    });
+
+        const cartContainer = document.getElementById('cartContainer');
+        const notification = document.getElementById('notification');
+        let totalAmount = 0;
+        let userEmail = '';
+        let cartItems = [];
+
+        function showNotification(msg, type = 'success') {
+            notification.textContent = msg;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            setTimeout(() => notification.style.display = 'none', 3000);
+        }
+
+        async function loadCart() {
+                const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+
+                try {
+                    // Fetch user profile
+                    const userRes = await fetch('http://127.0.0.1:8001/api/users/getuser', {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    const user = await userRes.json();
+                    userEmail = user.email;
+                    document.getElementById('fullName').value = user.fullName || '';
+                    document.getElementById('phone').value = user.phone || '';
+
+                    // Fetch cart
+                    const res = await fetch('http://127.0.0.1:8001/api/carts/', {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    const data = await res.json();
+                    cartItems = data.items || [];
+
+                    if (!cartItems.length) {
+                        cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+                        return;
+                    }
+
+                    let html = '';
+                    totalAmount = 0;
+
+                    cartItems.forEach(item => {
+                        const price = item.service?.price || 0;
+                        const quantity = item.quantity;
+                        const subtotal = price * quantity;
+                        totalAmount += subtotal;
+
+                        html += `
+        <div class="cart-item">
+            <div><strong>${item.service?.name}</strong> × ${quantity}</div>
+            <div>₦${subtotal}</div>
+        </div>`;
+                    });
+
+                    html += `<div class="total">Total: ₦${totalAmount}</div>`;
+                    cartContainer.innerHTML = html;
+
+                } catch (err) {
+                    console.error(err);
+                    showNotification("Failed to load cart or user info", "error");
+                }
+            }
+
+
+            async function submitOrder() {
+                    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+
+                    const shippingAddress = {
+                        fullName: document.getElementById('fullName').value.trim(),
+                        phone: document.getElementById('phone').value.trim(),
+                        addressLine: document.getElementById('addressLine').value.trim(),
+                        city: document.getElementById('city').value.trim(),
+                        state: document.getElementById('state').value.trim(),
+                        postalCode: document.getElementById('postalCode').value.trim(),
+                        country: document.getElementById('country').value.trim()
+                    };
+
+                    const paymentMethod = document.getElementById('paymentMethod').value;
+
+                    // Validate required fields
+                    if (Object.values(shippingAddress).some(v => !v)) {
+                        return showNotification("Please fill in all shipping details", "error");
+                    }
+
+                    try {
+                        // 1. Create Order
+                        const orderRes = await fetch('http://127.0.0.1:8001/api/orders/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ shippingAddress, paymentMethod })
+                        });
+                        
+                        const orderData = await orderRes.json();
+                        if (!orderRes.ok) throw new Error(orderData.message || "Order failed");
+
+                        showNotification("Order placed!", "success");
+                        const orderId = orderData.order._id;
+                       // console.log(orderData);
+
+                        // 2. Initiate payment
+                        const paymentRes = await fetch('http://127.0.0.1:8001/api/payments/initiate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                email: userEmail,
+                                amount: totalAmount,
+                                orderId
+                            })
+                        });
+
+                        // 3. Clear cart
+                        await fetch('http://127.0.0.1:8001/api/carts/clear', {
+                            method: 'DELETE',
+                            headers: { Authorization: `Bearer ${token}` }
+                        });
+
+                        const paymentData = await paymentRes.json();
+                        if (paymentData.authorization_url) {
+                            window.location.href = paymentData.authorization_url;
+                        } else {
+                            throw new Error(paymentData.message || "Payment failed");
+                        }
+
+                    } catch (err) {
+                        showNotification(err.message, "error");
+                    }
+                }
+
+                const logout = async () => {
+                        await localStorage.removeItem('authToken');
+                        await sessionStorage.removeItem('authToken');
+                        window.location.href = "login.html"
+                    }
+
+
+        loadCart();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Book an Appointment</title>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: #fffaf4;
+            color: #3b2f2f;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        
+.navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .navbar-right a,
+        .navbar-left a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+
+
+        header,
+        footer {
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .sidebar {
+            width: 220px;
+            background: #fff;
+            border-right: 1px solid #eee;
+            padding: 20px;
+        }
+
+        .sidebar .step-link {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #3b2f2f;
+        }
+
+        .sidebar .step-link.active {
+            color: #00c48c;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .notification {
+            display: none;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .notification.success {
+            background: #42c474;
+            color: #fff;
+        }
+
+        .notification.error {
+            background: #b94b4b;
+            color: #fff;
+        }
+
+        .loader {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            border: 4px solid #eee;
+            border-top: 4px solid #3b2f2f;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        
+
+        #services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .service-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 45.13px;
+            margin-right: 15px;
+        }
+
+        .service-item.selected {
+            border-color: #00c48c;
+            background: #e6f7f2;
+        }
+
+        .slot-item {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px;
+            margin: 3px 0;
+            cursor: pointer;
+        }
+
+        .slot-item.selected {
+            border-color: #00c48c;
+            background: #e6f7f2;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #00c48c;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            }
+
+        .category-item:hover {
+            background: #f5f5f5;
+            }
+
+        .category-item.selected {
+            border-color: #00c48c;
+            background: #e6f7f2;
+            }
+
+        .category-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 30px;
+            margin-right: 10px;
+            }
+
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #00c48c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background: #00a874;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        
+        .footer {
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+        @media(max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-left,
+            .navbar-right {
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 8px;
+            }
+
+            .footer-content {
+            flex-direction: column;
+            gap: 20px;
+        }
+            .wrapper {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            #services {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+       
+        <div class="navbar">
+            <div class="navbar-left">
+                <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo"
+                        style="height: 60px; width: 80px;background-color: transparent;" /></a>
+                <a href="index.html">Home</a>
+                <a href="bookings.html">Dashboard</a>
+            </div>
+            <div class="navbar-right">
+                <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
+                <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
+                <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+            </div>  </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="sidebar">
+            <div class="step-link active" onclick="goToStep(1)"><i class="fas fa-cut"></i>&nbsp; Service</div>
+            <div class="step-link" onclick="goToStep(2)"><i class="fas fa-calendar-alt"></i>&nbsp; Date & Time</div>
+            <div class="step-link" onclick="goToStep(3)"><i class="fas fa-user"></i>&nbsp; Basic Details</div>
+            <div class="step-link" onclick="goToStep(4)"><i class="fas fa-credit-card"></i>&nbsp; Payment</div>
+        </div>
+
+        <div class="content">
+            <h2 id="step-title">Select Service</h2>
+            <div class="notification" id="notification"></div>
+            <div class="loader" id="loader"></div>
+
+            <!-- Step 1 -->
+            <div class="step" id="step1">
+                <h3>Select a Category</h3>
+                <div id="categories" class="flex-container">
+                    <div class="category-item" onclick="displayService('all')">All</div>
+                    <div class="category-item" onclick="displayService('locs')">Locs</div>
+                    <div class="category-item" onclick="displayService('cornrows')">Cornrows</div>
+                    <div class="category-item"onclick="displayService('braids')">Braids</div>
+                    <div class="category-item"onclick="displayService('hair treatment')">Hair treatment</div>
+                </div>
+                <div id="services"></div>
+                <button onclick="nextStep()">Next: Date & Time</button>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step hidden" id="step2">
+                <label>Select Date:</label>
+                <input id="datePicker" placeholder="Select date" /><br />
+                <div id="slots"></div>
+                <button onclick="prevStep()">Back</button>
+                <button onclick="nextStep()">Next: Basic Details</button>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step hidden" id="step3">
+                <label>First Name*</label>
+                <input type="text" id="firstname" />
+                <label>Last Name*</label>
+                <input type="text" id="lastname" />
+                <label>Email*</label>
+                <input type="email" id="email" />
+                <label>Phone*</label>
+                <input type="tel" id="phone" />
+                <label>Note</label>
+                <textarea id="note"></textarea>
+                <button onclick="prevStep()">Back</button>
+                <button onclick="nextStep()">Proceed to Payment</button>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step hidden" id="step4">
+                <p>Booking your appointment...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+                        <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                        <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                        <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                        <li><button onclick="logout()"
+                                style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                                    class="fa-solid fa-power-off"></i>Logout</button></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> info@example.com</p>
+                    <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+                    <p><i class="fas fa-map-marker-alt"></i>74 Prestwick Road, Ingst, United Kingdom</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+            </div>
+        </footer>
+
+    </footer>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+         document.getElementById("year").textContent = new Date().getFullYear();
+        let currentStep = 1;
+        const data = {};
+        let allService = [];
+        let token;
+
+        function goToStep(step) {
+            if (step < currentStep) {
+                currentStep = step;
+                updateStep();
+            }
+        }
+
+        function nextStep() {
+            if (currentStep === 1 && !data.serviceId) {
+                notify('Please select a service.', 'error'); return;
+            }
+            if (currentStep === 2 && (!data.bookingDate || !data.slot)) {
+                notify('Please select date and time.', 'error'); return;
+            }
+            if (currentStep === 3) {
+                data.firstName = document.getElementById('firstname').value;
+                data.lastName = document.getElementById('lastname').value;
+                data.email = document.getElementById('email').value;
+                data.phone = document.getElementById('phone').value;
+                data.notes = document.getElementById('note').value;
+                bookAndPay();
+                return;
+            }
+            currentStep++;
+            updateStep();
+        }
+
+        function prevStep() { if (currentStep > 1) { currentStep--; updateStep(); } }
+
+        function updateStep() {
+            document.querySelectorAll('.step').forEach((s, i) => s.classList.toggle('hidden', i !== currentStep - 1));
+            document.querySelectorAll('.step-link').forEach((l, i) => l.classList.toggle('active', i === currentStep - 1));
+            const titles = ['Select Service', 'Select Date & Time', 'Basic Details', 'Proceed to Payment'];
+            document.getElementById('step-title').textContent = titles[currentStep - 1];
+            if (currentStep === 3) loadUser();
+        }
+
+        function notify(msg, type) {
+            const n = document.getElementById('notification');
+            n.textContent = msg;
+            n.className = `notification ${type}`;
+            n.style.display = 'block';
+            setTimeout(() => n.style.display = 'none', 3000);
+        }
+
+        function loader(show) { document.getElementById('loader').style.display = show ? 'block' : 'none'; }
+
+        async function loadServices() {
+            token = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken');
+            loader(true);
+            const res = await fetch('http://127.0.0.1:8001/api/services/service', { headers: { Authorization: `Bearer ${token}` } });
+            const services = await res.json();
+            allService = services;
+            console.log(allService)
+            const container = document.getElementById('services');
+            container.innerHTML = '';
+            services.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'service-item';
+                div.innerHTML = `<img src="http://127.0.0.1:8001/api/services/${s._id}/image" alt="${s.name}"><div><strong>${s.name}</strong><br>£${s.price}</div>`;
+                div.onclick = () => {
+                    document.querySelectorAll('.service-item').forEach(i => i.classList.remove('selected'));
+                    div.classList.add('selected');
+                    data.serviceId = s._id; data.serviceName = s.name; data.totalAmount = s.price;
+                };
+                container.appendChild(div);
+            });
+            loader(false);
+        }
+
+        const displayService = (category) => {
+            loader(true);
+            const container = document.getElementById('services');
+            container.innerHTML = '';
+            if (category !== 'all'){
+            const result = allService.filter(service => service.description.includes(category));
+            result.forEach(service => {
+                const div = document.createElement('div');
+                div.className = 'service-item';
+                div.innerHTML = `<img src="http://127.0.0.1:8001/api/services/${service._id}/image" alt="${service.name}"><div><strong>${service.name}</strong><br>£${service.price}</div>`;
+                div.onclick = () => {
+                    document.querySelectorAll('.service-item').forEach(element => element.classList.remove('selected'));
+                    div.classList.add('selected');
+                    data.serviceId = service._id; data.serviceName = service.name; data.totalAmount = service.price;
+                };
+                container.appendChild(div);
+            });} else{
+                loader(true);
+                //const result = allService.filter(service => service.description.includes(category));
+                allService.forEach(service => {
+                    const div = document.createElement('div');
+                    div.className = 'service-item';
+                    div.innerHTML = `<img src="http://127.0.0.1:8001/api/services/${service._id}/image" alt="${service.name}"><div><strong>${service.name}</strong><br>£${service.price}</div>`;
+                    div.onclick = () => {
+                        document.querySelectorAll('.service-item').forEach(element => element.classList.remove('selected'));
+                        div.classList.add('selected');
+                        data.serviceId = service._id; data.serviceName = service.name; data.totalAmount = service.price;
+                    };
+                    container.appendChild(div);
+                });
+            }
+            loader(false);
+        }
+//here
+        async function loadSlots() {
+            const date = data.bookingDate;
+            console.log(date)
+            token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            if (!date) return notify('Select a date.', 'error');
+            loader(true);
+            const res = await fetch(`http://127.0.0.1:8001/api/staffs/`, { headers: { Authorization: `Bearer ${token}` } });
+            const slots = await res.json();
+            console.log(...slots)
+            const container = document.getElementById('slots'); container.innerHTML = '';
+            slots.forEach(slot => {
+                const div = document.createElement('div');
+                div.className = 'slot-item';
+                div.textContent = slot.name;
+                div.onclick = () => {
+                    document.querySelectorAll('.slot-item').forEach(i => i.classList.remove('selected'));
+                    div.classList.add('selected');
+                    data.slot = slot;
+                    data.staffId = slot._id;
+                };
+                container.appendChild(div);
+            });
+            loader(false);
+        }
+
+        async function loadUser() {
+            token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            loader(true);
+            const res = await fetch('http://127.0.0.1:8001/api/users/getuser', { headers: { Authorization: `Bearer ${token}` } });
+            const u = await res.json();
+            data.userId = u._id;
+            document.getElementById('firstname').value = u.firstName || '';
+            document.getElementById('lastname').value = u.lastName || '';
+            document.getElementById('email').value = u.email || '';
+            document.getElementById('phone').value = u.phone || '';
+            loader(false);
+        }
+
+        async function bookAndPay() {
+            document.getElementById('step4').classList.remove('hidden');
+            loader(true);
+            console.log(data);
+            token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                const res = await fetch('http://127.0.0.1:8001/api/bookings/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    body: JSON.stringify(data)
+                });
+                const booking = await res.json();
+                data.orderId = booking._id;
+                console.log(booking, 'test here');
+                //console.log(booking.status.ok)
+                if(res.ok){
+                    notify('Booking successful', 'success');
+                    try{
+                    const paymentRes = await fetch(`http://127.0.0.1:8001/api/payments/initiate`, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type' : 'application/json',
+                            Authorization: `Bearer ${token}`},
+                        body: JSON.stringify({
+                            email : data.email,
+                            amount : data.totalAmount,
+                            orderId : data.orderId
+                        })
+                    }).then(res => res.json());
+                    
+                    if (paymentRes.authorization_url) {
+                                notify('Redirecting to payment page', 'success');
+                                window.location.href = paymentRes.authorization_url;
+                            } else {
+                                throw new Error(paymentRes.message || "Payment failed");
+                            }               
+            } catch (err) {
+                notify(err.message, 'error');
+            }
+                } else{
+                    notify(booking.message, 'error')
+                }
+            
+            } catch { notify(booking.message, 'error'); }
+            loader(false);
+        }
+
+        flatpickr("#datePicker", {
+            inline: true,
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            disable: [
+                function (date) {
+                    return (date.getDay() === 0 || date.getDay() === 6);
+                }
+            ],
+            onChange: function (selectedDates, dateStr) {
+                data.bookingDate = dateStr;
+                loadSlots();
+            }
+        });
+
+        const logout = async () => {
+                await localStorage.removeItem('authToken');
+                await sessionStorage.removeItem('authToken');
+                window.location.href = "login.html"
+            }
+
+        loadServices();
+    </script>
+</body>
+
+</html>

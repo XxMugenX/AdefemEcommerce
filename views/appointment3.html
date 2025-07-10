@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Salon Appointment</title>
+    <style>
+        /* General Reset */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background: #fffaf4;
+  color: #3b2f2f;
+}
+
+.navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .navbar-right a,
+        .navbar-left a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+
+/* Container Styling */
+.container {
+  background: #ffffff;
+  max-width: 500px;
+  margin: auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+  border: 1px solid #f0e6da;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #3b2f2f;
+}
+
+label {
+  margin-top: 15px;
+  display: block;
+  font-weight: 600;
+  color: #7a5f3d;
+  font-size: 14px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  background: #fffaf4;
+  color: #3b2f2f;
+}
+
+button {
+  background-color: #d4b17a;
+  color: white;
+  padding: 12px;
+  margin-top: 20px;
+  border: none;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ba975f;
+}
+
+#message {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* Loader Dots */
+#loading {
+  display: none;
+}
+
+.loader-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  height: 40px;
+}
+
+.loader-dots span {
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  background-color: #d4b17a;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.loader-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loader-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.footer {   margin-top: 20px;
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+
+@keyframes bounce {
+  to {
+    transform: translateY(-10px);
+    opacity: 0.5;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+  .container {
+    padding: 20px;
+  }
+  input, select, button {
+    font-size: 14px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+}
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="navbar-left">
+      <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px;background-color: transparent;" /></a>
+        <a href="index.html">Home</a>
+    </div>
+    <div class="navbar-right">
+        <a href="appointment.html"><i class="fas fa-cut"></i> Services</a>
+        <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
+        <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+    </div>
+</div>
+
+    <div class="container">
+        <div id="loading" class="loader-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <h1>Book a Salon Appointment</h1>
+        
+          
+        <form id="bookingForm">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required />
+
+            <label for="service">Service:</label>
+            <select id="service" name="serviceId" required></select>
+
+            <label for="staff">Session:</label>
+            <select id="staff" name="staffId" required></select>
+
+            <label for="bookingDate">Date:</label>
+            <input type="date" id="bookingDate" name="bookingDate" required />
+
+            <label for="notes">Additional Notes (optional):</label>
+            <textarea id="notes" name="notes" placeholder="e.g., I prefer braids with extensions..."></textarea>
+
+            <button type="submit">Book Appointment</button>
+        </form>
+
+        <p id="message"></p>
+    </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h4>About Us</h4>
+              <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+              </p>
+            </div>
+            <div class="footer-section">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="products.html"><i class="fas fa-cut"></i> Products</a></li>
+                <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                <li><button onclick="logout()"
+                    style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                      class="fa-solid fa-power-off"></i>Logout</button></li>
+              </ul>
+            </div>
+            <div class="footer-section">
+              <h4>Contact</h4>
+              <p><i class="fas fa-envelope"></i> info@example.com</p>
+              <p><i class="fas fa-phone-alt"></i> +234 801 234 5678</p>
+              <p><i class="fas fa-map-marker-alt"></i> 12 Agen Street, Lagos, Nigeria</p>
+              <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-x-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+          </div>
+          </footer>
+
+    <script>
+      // Update Year
+        document.getElementById("year").textContent = new Date().getFullYear();
+        document.addEventListener('DOMContentLoaded', async () => {
+            const serviceSelect = document.getElementById('service');
+            const staffSelect = document.getElementById('staff');
+            const form = document.getElementById('bookingForm');
+            const message = document.getElementById('message');
+            const storage = await localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken')
+            let totalAmount;
+            // Load services
+            fetch('http://127.0.0.1:8001/api/services/service', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${storage}`,
+            },
+          })
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(service => {
+                        const option = document.createElement('option');
+                        option.value = service._id;
+                        option.textContent = service.name + ' - ₦' + service.price;
+                        serviceSelect.appendChild(option);
+                    });
+                });
+                
+            // Load staff
+            fetch('http://127.0.0.1:8001/api/staffs', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${storage}`,
+            },
+          })
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(staff => {
+                        const option = document.createElement('option');
+                        option.value = staff._id;
+                        option.textContent = staff.name;
+                        staffSelect.appendChild(option);
+                    });
+                });
+
+                let userId;
+            fetch('http://127.0.0.1:8001/api/users/getuser', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${storage}`,
+            },
+          }).then(res => res.json())
+          .then(data => {
+            form.fullName.value = data.fullName || '';
+            form.email.value = data.email || '';
+            form.phone.value = data.phone || '';
+            userId = data._id
+          })
+
+          
+            // Handle form submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const payload = {
+                    fullName: form.fullName.value,
+                    email: form.email.value,
+                    phone: form.phone.value,
+                    serviceId: form.service.value,
+                    staffId: form.staff.value,
+                    bookingDate: form.bookingDate.value,
+                    notes: form.notes.value,
+                    userId
+                };
+
+                try {
+                    const res = await fetch('http://127.0.0.1:8001/api/bookings', {
+                        method: 'POST',
+                        headers: { 
+                          'Authorization': `Bearer ${storage}`, 
+                          'Content-Type': 'application/json' 
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    const result = await res.json();
+                    const bookingId = result._id;
+                    const serviceId = result.serviceId
+                    if (res.ok) {
+                        message.style.color = 'green';
+                        message.textContent = 'Booking successful!';
+                        
+                        await fetch(`http://127.0.0.1:8001/api/services/${serviceId}`, {
+                        method: 'GET',
+                        headers: {
+                          'Authorization': `Bearer ${storage}`,
+                        },
+                      }).then(res => res.json()).then(data => totalAmount = data.price);
+                      try{
+                        const paymentRes = await fetch('http://127.0.0.1:8001/api/payments/initiate', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${storage}`
+                      },
+                      body: JSON.stringify({
+                        email: form.email.value,
+                        amount: totalAmount,
+                        orderId : bookingId
+                      })
+                    });
+                    
+                    const paymentData = await paymentRes.json();
+                    if (paymentData.authorization_url) {
+                      form.reset();
+                      window.location.href = paymentData.authorization_url;
+                    } else {
+                      throw new Error(paymentData.message || "Payment failed");
+                    }
+
+                  } catch (err) {
+                    showNotification(err.message, "error");
+                  }
+                 } else {
+                        message.style.color = 'red';
+                        message.textContent = result.message || 'Failed to book.';
+                    }
+                } catch (err) {
+                    message.style.color = 'red';
+                    message.textContent = 'Something went wrong!';
+                }
+            });
+        });
+
+        const logout = async () => {
+            await localStorage.removeItem('authToken');
+            await sessionStorage.removeItem('authToken');
+            window.location.href = "login.html"
+          }
+    </script>
+</body>
+
+</html>

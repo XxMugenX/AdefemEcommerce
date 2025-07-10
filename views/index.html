@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Adefem Collection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+
+        .deals-section {
+            margin-top: 50px;
+            text-align: center;
+            }
+
+        .deal-card {
+            position: relative;
+            background: #fef8ec;
+            padding-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 8px rgba(212, 177, 122, 0.2);
+            }
+
+        .deal-card img {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+            }
+
+        .deal-discount {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #b12704;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            z-index: 1;
+            }
+
+        .deal-price {
+            font-size: 15px;
+            margin-top: 8px;
+            color: #333;
+            }
+
+        .deal-price del {
+            color: #a1a1a1;
+            margin-right: 6px;
+            }
+
+        .deal-timer {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #b12704;
+            font-weight: bold;
+            }
+
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+            animation: fade 1s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0.5;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 2;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .main-content {
+            padding: 40px 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .action-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            flex: 1 1 250px;
+            background: #f9f3e8;
+            border-radius: 10px;
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card i {
+            font-size: 36px;
+            color: #d4b17a;
+            margin-bottom: 10px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .product-grid img {
+            width: 100%;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
+            }
+
+            .card {
+                flex: 1 1 100%;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                gap: 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px;background-color: transparent;" /></a>
+            <a href="index.html">Home</a>
+            <a href="bookings.html">Dashboard</a>
+        </div>
+        <div class="navbar-right">
+            <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
+            <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
+            <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+        </div>
+    </div>
+
+    <!-- Hero Slideshow -->
+    <div class="slideshow-container">
+        <img class="slide active"
+            src="./img/img30 (1).jpg" alt="Slide 1" />
+        <img class="slide" src="./img/t1 (3).jpg"
+            alt="Slide 2" />
+        <img class="slide" src="./img/img30 (2).jpg"
+            alt="Slide 3" />
+        <img class="slide" src="./img/t1 (2).jpg" 
+            alt="Slide 4" />
+
+        <div class="hero-text">
+            <h1>Adefem Limited</h1>
+            <p>Your Home of Beauty</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="intro">
+            <h1>Welcome to Adefem Limited</h2>
+            <p>Book your beauty appointments with ease and shop from our carefully curated selection of beauty products.
+            </p>
+        </div>
+
+        <div class="action-cards">
+            <div class="card" onclick="window.location.href='appointment.html'">
+                <i class="fas fa-spa"></i>
+                <h3>Book Appointment</h3>
+                <p>Explore our beauty services and reserve your preferred time slot today.</p>
+            </div>
+
+            <div class="card" onclick="window.location.href='products.html'">
+                <i class="fas fa-shopping-bag"></i>
+                <h3>Shop Products</h3>
+                <p>Discover top beauty products picked just for you.</p>
+            </div>
+        </div>
+
+        <div class="featured-products">
+            <h2>Featured Products</h2>
+            <div class="product-grid">
+                <a href="products.html"><img src="./img/img8.png"
+                        alt="Hair Oil" /></a>
+                <a href="products.html"><img src="./img/img17.jpg"
+                        alt="Hair Syrup" /></a>
+                <a href="products.html"><img src="./img/img10.png" alt="Shampoo" /></a>
+                <a href="products.html"><img src="./img/img4.png"
+                        alt="Hair Conditioner" /></a>
+            </div>
+        </div>
+
+        <div class="new-products" style="margin-top: 50px;">
+            <h2>New Arrivals</h2>
+            <div class="product-grid">
+                <a href="products.html"><img src="./img/img5.png"
+                        alt="Hair Straightener" /></a>
+                <a href="products.html"><img src="./img/img15.png" alt="Hair Growth Shampoo" /></a>
+                <a href="products.html"><img src="./img/img25.jpg" alt="Goddess Braid Extention" /></a>
+                <a href="products.html"><img src="./img/img1.png" alt="Hair Cream" /></a>
+            </div>  
+        </div>
+    </section>
+
+    <!-- Exclusive Deals Section -->
+    <section class="deals-section">
+        <h2>Exclusive Deals</h2>
+        <div class="product-grid">
+            <div class="deal-card">
+                <a href="products.html">
+                    <img src="./img/img26.jpg" alt="Attachment" />
+                </a>
+                <div class="deal-discount">20% OFF</div>
+                <div class="deal-price">
+                    <del>£5,000</del> £4,000
+                </div>
+                <div class="deal-timer" id="timer1">Loading...</div>
+            </div>
+    
+            <div class="deal-card">
+                <a href="products.html">
+                    <img src="./img/img9.png" alt="Hair Oil" />
+                </a>
+                <div class="deal-discount">30% OFF</div>
+                <div class="deal-price">
+                    <del>£7,000</del> £4,900
+                </div>
+                <div class="deal-timer" id="timer2">Loading...</div>
+            </div>
+    
+            <div class="deal-card">
+                <a href="products.html">
+                    <img src="./img/img23.jpg" alt="Braids" />
+                </a>
+                <div class="deal-discount">15% OFF</div>
+                <div class="deal-price">
+                    <del>£6,000</del> £5,100
+                </div>
+                <div class="deal-timer" id="timer3">Loading...</div>
+            </div>
+        </div>
+    </section>
+  
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+                    <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                    <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                    <li><button onclick="logout()" style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i class="fa-solid fa-power-off"></i>Logout</button></li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> info@example.com</p>
+                <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+                <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Hero Slideshow Script
+        let currentSlide = 0;
+        const slides = document.querySelectorAll(".slide");
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove("active");
+                if (i === index) slide.classList.add("active");
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        setInterval(nextSlide, 4000);
+
+        // Update Year
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        function startCountdown(id, endTime) {
+                const timerElement = document.getElementById(id);
+                const targetTime = new Date(endTime).getTime();
+
+                const updateTimer = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = targetTime - now;
+
+                    if (distance < 0) {
+                        clearInterval(updateTimer);
+                        timerElement.innerText = "Deal Ended";
+                        return;
+                    }
+
+                    const hrs = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const secs = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    timerElement.innerText = `${hrs}h ${mins}m ${secs}s left`;
+                }, 1000);
+            }
+
+            // Start static countdowns
+            startCountdown("timer1", "2025-07-31T23:59:59");
+            startCountdown("timer2", "2025-07-31T18:00:00");
+            startCountdown("timer3", "2025-07-31T12:00:00");
+
+            const logout = async () => {
+                await localStorage.removeItem('authToken');
+                await sessionStorage.removeItem('authToken');
+                window.location.href = "login.html"
+            }
+    </script>
+</body>
+
+</html>

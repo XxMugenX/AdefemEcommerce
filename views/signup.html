@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        .container {
+            background: #ffffff;
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+            border: 1px solid #f0e6da;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 26px;
+            color: #3b2f2f;
+        }
+
+        label {
+            margin-top: 15px;
+            display: block;
+            font-weight: 600;
+            color: #7a5f3d;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #7a5f3d;
+            font-size: 14px;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        button {
+            background-color: #d4b17a;
+            color: white;
+            padding: 12px;
+            margin-top: 25px;
+            border: none;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ba975f;
+        }
+
+        .loader-dots {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            height: 40px;
+        }
+
+        .loader-dots span {
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: #d4b17a;
+            border-radius: 50%;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .loader-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loader-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            to {
+                transform: translateY(-10px);
+                opacity: 0.5;
+            }
+        }
+
+        .notification {
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        .notification.success {
+            background-color: #d4f8d4;
+            color: #1c5c1c;
+            border: 1px solid #a3e6a3;
+        }
+
+        .notification.error {
+            background-color: #ffe5e5;
+            color: #991111;
+            border: 1px solid #ffb3b3;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            input,
+            select,
+            button {
+                font-size: 14px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Create Your Account</h2>
+
+        <!-- 🔔 Notification Area -->
+        <div id="notification" class="notification"></div>
+
+        <form id="signupForm">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required />
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required minlength="3" />
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required pattern="^[0-9]{7,15}$" />
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="other">Other</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <label for="password">Password:</label>
+            <div class="password-field">
+                <input type="password" id="password" name="password" required minlength="6" />
+                <span class="toggle-password" onclick="toggleVisibility('password')">Show</span>
+            </div>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <div class="password-field">
+                <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6" />
+                <span class="toggle-password" onclick="toggleVisibility('confirmPassword')">Show</span>
+            </div>
+
+            <button type="submit">Sign Up</button>
+            <span>You already have an account? <a href="login.html"> Login here</a></span>
+
+            <div class="loader-dots" id="loader">
+                <span></span><span></span><span></span>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function toggleVisibility(fieldId) {
+            const input = document.getElementById(fieldId);
+            const toggle = input.nextElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                toggle.textContent = 'Show';
+            }
+        }
+
+        function showNotification(message, type = 'error') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+
+        const usernameInput = document.getElementById('username');
+
+        usernameInput.addEventListener('blur', async () => {
+            const username = usernameInput.value.trim();
+            if (!username) return;
+
+            showNotification('Checking username...', 'success');
+
+            try {
+                const res = await fetch(`http://127.0.0.1:8001/api/users/check-username?username=${username}`);
+                const data = await res.json();
+                console.log(data.available);
+                if (data.available == true ) {
+                    showNotification('Username is available!', 'success');
+                } else {
+                    showNotification('Username is already taken.', 'error');
+                }
+            } catch (error) {
+                showNotification('Error checking username.', 'error');
+            }
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                loader.style.display = 'none';
+                showNotification('Passwords do not match.', 'error');
+                return;
+            }
+
+            const user = {
+                fullName: document.getElementById('fullName').value.trim(),
+                userName: document.getElementById('username').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                gender: document.getElementById('gender').value,
+                password: password
+            };
+
+            try {
+                const res = await fetch('http://127.0.0.1:8001/api/users/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(user)
+                });
+
+                const result = await res.json();
+                loader.style.display = 'none';
+
+                if (res.ok) {
+                    showNotification(result.message, 'success');
+                    document.getElementById('signupForm').reset();
+                    loader.style.display = 'flex';
+                    window.location.href = 'login.html'
+                } else {
+                    showNotification(result.message || 'Signup failed.', 'error');
+                }
+            } catch (err) {
+                loader.style.display = 'none';
+                showNotification('Network error. Try again.', 'error');
+            }
+        });
+    </script>
+</body>
+
+</html>

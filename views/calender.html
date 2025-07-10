@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Salon Appointments Calendar</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff8f0;
+  color: #333;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header and Nav Styles */
+header {
+  background-color: #fff;
+  padding: 12px 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-img {
+  height: 40px;
+  object-fit: contain;
+}
+
+.main-nav a {
+  margin: 0 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+  color: #d4b17a;
+}
+
+#calendar {
+  flex: 1;
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0e6da;
+  min-height: 0; /* important for flex layout */
+}
+
+
+    /* Past appointment styling */
+.fc-event.past-event {
+  background-color: #ccc !important;
+  border-color: #aaa !important;
+  color: #444 !important;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+
+    /* Loader Styles */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      background: #fff8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loader-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+    }
+
+    .loader-dots span {
+      width: 10px;
+      height: 10px;
+      margin: 0 6px;
+      background-color: #d4b17a;
+      border-radius: 50%;
+      animation: bounce 0.6s infinite alternate;
+    }
+
+    .loader-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .loader-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .footer {
+            margin-top: 20px;
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+
+    @keyframes bounce {
+      to {
+        transform: translateY(-10px);
+        opacity: 0.5;
+      }
+    }
+
+    /* Responsive Fix */
+    @media (max-width: 768px) {
+      #calendar {
+        padding: 10px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+      .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .main-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .footer-content {
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px;background-color: transparent;" /></a>
+        
+      <nav class="main-nav">
+        <a href="myorders.html">All Orders</a>
+        <a href="calender.html">Calender</a>
+        <a href="bookings.html">Bookings</a>
+        <a class="addProduct" href="addservices.html">Add Product</a>
+      </nav>
+    </div>
+  </header>
+  
+
+  <div id="loading">
+    <div class="loader-dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  
+
+<h2 style="text-align: center; margin: 16px;">Salon Appointments Calendar</h2>
+
+<div style="flex: 1; display: flex; flex-direction: column;">
+  <div id="calendar"></div>
+</div>
+</body>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>About Us</h4>
+          <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+            <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+            <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+            <li><button onclick="logout()"
+                style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                  class="fa-solid fa-power-off"></i>Logout</button></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <p><i class="fas fa-envelope"></i> info@example.com</p>
+          <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+          <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-x-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+      </div>
+    </footer>
+
+  <script>
+    // Update Year
+      document.getElementById("year").textContent = new Date().getFullYear();
+      const addProduct = document.querySelector('.addProduct');
+    document.addEventListener('DOMContentLoaded', async function () {
+      const loading = document.getElementById('loading');
+      const storage = await localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken')
+      try {
+        let apiCall;
+        let role;
+        await fetch('http://127.0.0.1:8001/api/users/getuser', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${storage}`
+          }
+        })
+          .then(res => res.json())
+          .then(data => {
+            role = data.role;
+            console.log(role);
+            if (role == 'admin') {
+              apiCall = 'http://127.0.0.1:8001/api/bookings'
+            }
+            else{
+              apiCall = 'http://127.0.0.1:8001/api/bookings/user'
+              addProduct.style.display = "none";
+
+            }}
+          
+          )
+
+        const bookings = await fetch(apiCall, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${storage}`,
+          },
+        }).then(res => res.json());
+
+        const now = new Date();
+
+        const events = bookings.map(b => {
+          const start = new Date(b.bookingDate);
+          const end = new Date(start.getTime() + (b.duration || 60) * 60000);
+          const isPast = end < now;
+
+          return {
+            title: `${b.serviceId?.name || 'Service'} on ${b.staffId?.name || 'Staff'} session`,
+            start: start.toISOString(),
+            end: end.toISOString(),
+            className: isPast ? 'past-event' : '',
+            extendedProps: {
+              client: b.userId?.fullName || 'Unknown',
+              status: b.status || 'Unknown'
+            }
+          };
+        });
+
+
+
+        const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+          initialView: 'timeGridWeek',
+          height: '100%', 
+          contentHeight: 'auto',
+          expandRows: true,
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'timeGridWeek,dayGridMonth'
+          },
+          events: events,
+          eventClick: function (info) {
+            alert(`Booked by: ${info.event.extendedProps.client}`);
+          },
+          eventDidMount: function (info) {
+            // Tooltip content
+            const client = info.event.extendedProps.client;
+            const status = info.event.extendedProps.status;
+            const isPast = info.event.classNames.includes("past-event");
+
+            info.el.setAttribute("title", `Client: ${client}\nStatus: ${status}${isPast ? "\n[Past Appointment]" : ""}`);
+          }
+        });
+
+        calendar.render();
+      } catch (err) {
+        //window.location.href = 'appointment.html';
+        console.log(err)
+      } finally {
+        loading.style.display = 'none';
+      }
+    });
+
+    const logout = async () => {
+        await localStorage.removeItem('authToken');
+        await sessionStorage.removeItem('authToken');
+        window.location.href = "login.html"
+      }
+  </script>
+</body>
+
+</html>

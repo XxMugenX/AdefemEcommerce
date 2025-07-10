@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        .container {
+            background: #ffffff;
+            max-width: 450px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+            border: 1px solid #f0e6da;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 26px;
+            color: #3b2f2f;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #7a5f3d;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 14px;
+            color: #7a5f3d;
+            user-select: none;
+        }
+
+        .remember {
+            margin-top: 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .remember input {
+            margin-right: 8px;
+        }
+
+        button {
+            background-color: #d4b17a;
+            color: white;
+            padding: 12px;
+            margin-top: 25px;
+            border: none;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ba975f;
+        }
+
+        .notification {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .notification.success {
+            color: green;
+        }
+
+        .notification.error {
+            color: red;
+        }
+
+        .loader-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            height: 40px;
+            display: none;
+        }
+
+        .loader-dots span {
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: #d4b17a;
+            border-radius: 50%;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .loader-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loader-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            to {
+                transform: translateY(-10px);
+                opacity: 0.5;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            input,
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Login to Your Account</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+
+            <label for="password">Password:</label>
+            <div class="password-field">
+                <input type="password" id="password" name="password" required />
+                <span class="toggle-password" onclick="toggleVisibility('password')">Show</span>
+            </div>
+
+            <div class="remember">
+                <input type="checkbox" id="rememberMe" />
+                <label for="rememberMe" style="margin: 0;">Remember me</label>
+            </div>
+
+            <button type="submit">Login</button>
+            <span>You don't have an account yet? <a href="signup.html"> Create one here</a></span>
+            <div class="loader-dots" id="loader">
+                <span></span><span></span><span></span>
+            </div>
+
+            <div id="message" class="notification"></div>
+        </form>
+    </div>
+
+    <script>
+        function toggleVisibility(fieldId) {
+            const input = document.getElementById(fieldId);
+            const toggle = input.nextElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                toggle.textContent = 'Show';
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const loader = document.getElementById('loader');
+            const message = document.getElementById('message');
+            loader.style.display = 'flex';
+            message.textContent = '';
+            message.className = 'notification';
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            try {
+                const res = await fetch('http://127.0.0.1:8001/api/users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+               // window.alert(rememberMe);
+                const result = await res.json();
+                loader.style.display = 'none';
+
+                if (res.ok && result.token) {
+                    const storage = rememberMe == true ? localStorage.setItem('authToken', result.token) : sessionStorage.setItem('authToken', result.token);
+                    //storage.setItem('authToken', result.token);
+
+                    message.textContent = result.message;
+                    message.classList.add('success');
+
+                    if(result.role == "admin"){
+                        setTimeout(() => {
+                            loader.style.display = 'flex';
+                            window.location.href = 'bookings.html'; // redirect page
+                        }, 1000);} else {
+                        setTimeout(() => {
+                            loader.style.display = 'flex';
+                            window.location.href = './index.html'; // redirect page
+                        }, 1000);
+                    }
+                } else {
+                    message.textContent = result.message || 'Invalid login credentials.';
+                    message.classList.add('error');
+                }
+            } catch (err) {
+                loader.style.display = 'none';
+                message.textContent = 'Network error. Please try again.';
+                message.classList.add('error');
+            }
+        });
+    </script>
+</body>
+
+</html>

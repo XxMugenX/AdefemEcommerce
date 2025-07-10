@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>All Bookings</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px; background-color: transparent;" /></a>
+            
+            <nav class="main-nav">
+                <a href="myorders.html">All Orders</a>
+                <a href="calender.html">Calender</a>
+                <a href="bookings.html">Bookings</a>
+                <a class="addProduct" href="addservices.html">Add Product</a>
+            </nav>
+        </div>
+    </header>
+      
+    <div class="container">
+        <h2>All Bookings</h2>
+        <div id="loading" class="loader-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div id="notification" class="notification" style="display:none;"></div>
+
+        <table id="bookingTable">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Service</th>
+                    <th>Session</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+                        <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                        <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                        <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                        <li><button onclick="logout()"
+                                style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                                    class="fa-solid fa-power-off"></i>Logout</button></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> info@example.com</p>
+                    <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+            </div>
+            </footer>
+    <script>
+        // Update Year
+            document.getElementById("year").textContent = new Date().getFullYear();            
+            const addProduct = document.querySelector('.addProduct');
+            
+
+        const loader = document.getElementById('loading');
+        const tableBody = document.querySelector('#bookingTable tbody');
+        let storage;
+        loader.style.display = 'flex';
+
+        function showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.style.display = 'block';
+
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+
+        
+//hadle control flow for if user is not an admin
+        fetch('http://127.0.0.1:8001/api/users/getuser', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${storage = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken') }`
+            }
+        })
+        .then(res => res.json())
+            .then(data => {
+                const role = data.role;
+                console.log(role);
+                let apiCall;
+                let display;
+                if (role == 'admin') {
+                    apiCall = 'http://127.0.0.1:8001/api/bookings'
+                    display = "block";
+                }
+                else{
+                    apiCall = 'http://127.0.0.1:8001/api/bookings/user'
+                    addProduct.style.display = "none";
+                    display = "none";
+                }
+                fetch(apiCall, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${storage = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken') }`
+                    }
+                }).then(res => res.json())
+                    .then(data => {
+                        loader.style.display = 'none';
+                        data.forEach(b => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                    <td data-label="User">${b.userId?.fullName || '-'}</td>
+                    <td data-label="Service">${b.serviceId?.name || '-'}</td>
+                    <td data-label="Staff">${b.staffId?.name || '-'}</td>
+                    <td data-label="Date">${new Date(b.bookingDate).toLocaleString()}</td>
+                    <td data-label="Status">${b.status}</td>
+                    <td data-label="Notes">${b.notes || '-'}</td>
+                    <td data-label="Action">
+                        <button class="delete-btn" data-id="${b._id}" style = " display: ${display}">Delete</button>
+                    </td>
+                    <td data-label="Action">
+                        <button class="update-btn" data-id="${b._id}" style = " display: ${display}">Update</button>
+                    </td>
+                `;
+                        tableBody.appendChild(row);
+                        });
+
+                        
+                    });
+                    console.log('here')
+                    console.log(role ,'here')
+
+                    
+        });
+
+        // if (role !== 'admin') {
+
+        //         const updateButton = document.querySelectorAll('.update-btn');
+        //         const deleteButton = document.querySelectorAll('.delete-btn');
+        //         console.log(updateButton)
+        //         for (let i = 0; i < updateButton.length; i++) {
+        //             updateButton[i].style.display = 'none';
+        //             deleteButton[i].style.display = 'none';
+        //         }
+        //     }
+
+        
+        //deletes a booking
+            tableBody.addEventListener('click', async (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const bookingId = e.target.getAttribute('data-id');
+                    if (confirm('Are you sure you want to delete this booking?')) {
+                        try {
+                            const res = await fetch(`http://127.0.0.1:8001/api/bookings/delete/${bookingId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Authorization': `Bearer ${storage = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken') }`
+                                }
+                            });
+                            if (res.ok) {
+                                e.target.closest('tr').remove();
+                                showNotification('Booking deleted successfully.', 'success');
+                            } else {
+                                showNotification('Failed to delete booking.', 'error');
+                            }
+
+                        } catch (error) {
+                            showNotification('Error deleting booking.', 'error');
+                        }
+
+                    }
+                }
+            });
+
+             //updates a booking
+                tableBody.addEventListener('click', async (e) => {
+                    if (e.target.classList.contains('update-btn')) {
+                        const bookingId = e.target.getAttribute('data-id');
+                        if (confirm('Are you sure you want to update this booking?')) {
+                            try {
+                                const res = await fetch(`http://127.0.0.1:8001/api/bookings/update/${bookingId}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Authorization': `Bearer ${storage = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken')}`
+                                    }
+                                });
+                                if (res.ok) {
+                                    showNotification('Booking updated successfully.', 'success');
+                                } else {
+                                    showNotification('Failed to update booking.', 'error');
+                                }
+
+                            } catch (error) {
+                                showNotification('Error updating booking.', 'error');
+                            }
+
+                        }
+                    }
+                });
+
+                const logout = async () => {
+                        await localStorage.removeItem('authToken');
+                        await sessionStorage.removeItem('authToken');
+                        window.location.href = "login.html"
+                    }      
+    </script>    
+</body>
+</html>

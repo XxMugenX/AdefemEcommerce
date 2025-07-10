@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>My Orders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: #fffaf4;
+            color: #3b2f2f;
+        }
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(212, 177, 122, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .search-bar button {
+            background-color: #3b2f2f;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #5a4646;
+        }
+
+        .order {
+            border: 1px solid #eee;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .order h3 {
+            margin: 0 0 10px;
+        }
+
+        .order-items {
+            margin: 10px 0;
+        }
+
+        .order-items div {
+            padding: 4px 0;
+            font-size: 14px;
+        }
+
+        .order-meta {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .notification {
+            display: none;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .notification.success {
+            background-color: #42c474;
+            color: white;
+        }
+
+        .notification.error {
+            background-color: #b94b4b;
+            color: white;
+        }
+
+        .update-btn {
+            background-color: #73e573;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+            margin-right: 5px;
+            margin-top: 8px;
+        }
+
+        .update-btn:hover {
+            background-color: #42d32f;
+        }
+
+        .footer {
+            background-color: #3b2f2f;
+            color: white;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-bottom: 1px solid #fff3;
+            padding-bottom: 5px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-section i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 18px;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #fff3;
+            padding-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .order h3 {
+                font-size: 16px;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-bar input {
+                width: 100%;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px;background-color: transparent;" /></a>
+            <a href="index.html">Home</a>
+            <a href="bookings.html">Dashboard</a>
+        </div>
+        <div class="navbar-right">
+            <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
+            <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
+            <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>All Orders</h2>
+        <div class="search-bar">
+            <input type="text" id="orderSearch" placeholder="Search Order by ID..." />
+            <button onclick="searchOrders()"><i class="fas fa-search"></i> Search</button>
+            <button onclick="resetSearch()">Reset</button>
+        </div>
+        <div id="notification" class="notification"></div>
+        <div id="orderList"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>We provide quality salon and beauty services tailored to your needs. Your satisfaction is our pride.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></li>
+                    <li><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></li>
+                    <li><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></li>
+                    <li><button onclick="logout()"
+                            style="border: none; padding: 10px; background-color: #3b2f2f; color: #fff; font-size: 14px;"><i
+                                class="fa-solid fa-power-off"></i>Logout</button></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> info@example.com</p>
+                <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
+                <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="year"></span> Adefem Limited. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+        const notification = document.getElementById('notification');
+        const orderList = document.getElementById('orderList');
+        let allOrders = [];
+        let role = '';
+        let route = '';
+
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            setTimeout(() => notification.style.display = 'none', 3000);
+        }
+
+        async function loadOrders() {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            if (!token) return showNotification('You must be logged in to view orders.', 'error');
+
+            await fetch('http://127.0.0.1:8001/api/users/getuser', {
+                headers: { Authorization: `Bearer ${token}` }
+            }).then(res => res.json()).then(data => role = data.role);
+
+            if (role == 'admin') {
+                route = 'getall';
+            } else {
+                route = '';
+            }
+
+            try {
+                const res = await fetch(`http://127.0.0.1:8001/api/orders/${route}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await res.json();
+                allOrders = data;
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    orderList.innerHTML = '<p>No orders found.</p>';
+                    return;
+                }
+
+                displayOrders(data);
+            } catch (err) {
+                console.error(err);
+                showNotification('Failed to load orders', 'error');
+            }
+        }
+
+        function displayOrders(data) {
+            orderList.innerHTML = '';
+
+            data.forEach(order => {
+                const orderEl = document.createElement('div');
+                orderEl.className = 'order';
+                console.log(order);
+                let itemsHtml = '';
+                order.items.forEach(item => {
+                    itemsHtml += `<div>• ${item.service?.name || 'Unnamed'} × ${item.quantity}</div>`;
+                });
+
+                orderEl.innerHTML = `
+          <h3>Order #${order._id}</h3>
+          <div class="order-meta">Placed on ${new Date(order.createdAt).toLocaleString()}</div>
+          <div class="order-items">${itemsHtml}</div>
+          <div class="order-meta"><strong>Status:</strong> ${order.status || 'Pending'}</div>
+          <div class="order-meta"><strong>Payment Method:</strong> ${order.paymentMethod || '0.00'}</div>
+          <div class="order-meta"><strong>Full Name:</strong> ${order.shippingAddress.fullName || ''}</div>
+          <div class="order-meta"><strong>Phone:</strong> ${order.shippingAddress.phone || ''}</div>
+          <div class="order-meta"><strong>Address:</strong> ${order.shippingAddress.addressLine || ''}</div>
+          <div class="order-meta"><strong>Country:</strong> ${order.shippingAddress.country || ''}</div>
+          <div class="order-meta"><strong>State:</strong> ${order.shippingAddress.state || ''}</div>
+          <div class="order-meta"><strong>City:</strong> ${order.shippingAddress.city || ''}</div>
+          <div class="order-meta"><strong>Postal Code:</strong> ${order.shippingAddress.postalCode || ''}</div>
+          <div class="order-meta"><strong>Total:</strong> £${order.totalAmount || '0.00'}</div>
+          <button class="update-btn" onclick="updateOrderProcess('${order._id}')">Update to Processing</button>
+          <button class="update-btn" onclick="updateOrder('${order._id}')">Update to Delivered</button>
+        `;
+                orderList.appendChild(orderEl);
+            });
+
+            if (role !== 'admin') {
+                document.querySelectorAll('.update-btn').forEach(btn => btn.style.display = 'none');
+            }
+        }
+
+        function searchOrders() {
+            const query = document.getElementById('orderSearch').value.trim();
+            if (!query) {
+                showNotification('Please enter an Order ID to search.', 'error');
+                return;
+            }
+            const result = allOrders.filter(order => order._id.includes(query));
+            if (result.length === 0) {
+                orderList.innerHTML = '<p>No orders found for this ID.</p>';
+            } else {
+                displayOrders(result);
+            }
+        }
+
+        function resetSearch() {
+            document.getElementById('orderSearch').value = '';
+            displayOrders(allOrders);
+        }
+
+        async function updateOrder(orderId) {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                await fetch(`http://127.0.0.1:8001/api/orders/${orderId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                showNotification('Order status updated', 'success');
+            } catch {
+                showNotification('Error updating order', 'error');
+            }
+        }
+
+        async function updateOrderProcess(orderId) {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            try {
+                await fetch(`http://127.0.0.1:8001/api/orders/update/${orderId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                showNotification('Order status updated', 'success');
+            } catch {
+                showNotification('Error updating order', 'error');
+            }
+        }
+
+        const logout = async () => {
+                await localStorage.removeItem('authToken');
+                await sessionStorage.removeItem('authToken');
+                window.location.href = "login.html"
+            }
+
+        loadOrders();
+    </script>
+</body>
+
+</html>
