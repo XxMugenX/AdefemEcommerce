@@ -521,16 +521,16 @@
         async function loadServices() {
             token = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken');
             loader(true);
-            const res = await fetch('http://127.0.0.1:8001/api/services/service', { headers: { Authorization: `Bearer ${token}` } });
+            const res = await fetch('https://adefemecommerce.onrender.com/api/services/service', { headers: { Authorization: `Bearer ${token}` } });
             const services = await res.json();
             allService = services;
-            console.log(allService)
+            //console.log(allService)
             const container = document.getElementById('services');
             container.innerHTML = '';
             services.forEach(s => {
                 const div = document.createElement('div');
                 div.className = 'service-item';
-                div.innerHTML = `<img src="http://127.0.0.1:8001/api/services/${s._id}/image" alt="${s.name}"><div><strong>${s.name}</strong><br>£${s.price}</div>`;
+                div.innerHTML = `<img src="https://adefemecommerce.onrender.com/api/services/${s._id}/image" alt="${s.name}"><div><strong>${s.name}</strong><br>£${s.price}</div>`;
                 div.onclick = () => {
                     document.querySelectorAll('.service-item').forEach(i => i.classList.remove('selected'));
                     div.classList.add('selected');
@@ -550,7 +550,7 @@
             result.forEach(service => {
                 const div = document.createElement('div');
                 div.className = 'service-item';
-                div.innerHTML = `<img src="http://127.0.0.1:8001/api/services/${service._id}/image" alt="${service.name}"><div><strong>${service.name}</strong><br>£${service.price}</div>`;
+                div.innerHTML = `<img src="https://adefemecommerce.onrender.com/api/services/${service._id}/image" alt="${service.name}"><div><strong>${service.name}</strong><br>£${service.price}</div>`;
                 div.onclick = () => {
                     document.querySelectorAll('.service-item').forEach(element => element.classList.remove('selected'));
                     div.classList.add('selected');
@@ -563,7 +563,7 @@
                 allService.forEach(service => {
                     const div = document.createElement('div');
                     div.className = 'service-item';
-                    div.innerHTML = `<img src="http://127.0.0.1:8001/api/services/${service._id}/image" alt="${service.name}"><div><strong>${service.name}</strong><br>£${service.price}</div>`;
+                    div.innerHTML = `<img src="https://adefemecommerce.onrender.com/api/services/${service._id}/image" alt="${service.name}"><div><strong>${service.name}</strong><br>£${service.price}</div>`;
                     div.onclick = () => {
                         document.querySelectorAll('.service-item').forEach(element => element.classList.remove('selected'));
                         div.classList.add('selected');
@@ -577,13 +577,13 @@
 //here
         async function loadSlots() {
             const date = data.bookingDate;
-            console.log(date)
+            //console.log(date)
             token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             if (!date) return notify('Select a date.', 'error');
             loader(true);
-            const res = await fetch(`http://127.0.0.1:8001/api/staffs/`, { headers: { Authorization: `Bearer ${token}` } });
+            const res = await fetch(`https://adefemecommerce.onrender.com/api/staffs/`, { headers: { Authorization: `Bearer ${token}` } });
             const slots = await res.json();
-            console.log(...slots)
+            //console.log(...slots)
             const container = document.getElementById('slots'); container.innerHTML = '';
             slots.forEach(slot => {
                 const div = document.createElement('div');
@@ -603,7 +603,7 @@
         async function loadUser() {
             token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             loader(true);
-            const res = await fetch('http://127.0.0.1:8001/api/users/getuser', { headers: { Authorization: `Bearer ${token}` } });
+            const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', { headers: { Authorization: `Bearer ${token}` } });
             const u = await res.json();
             data.userId = u._id;
             document.getElementById('firstname').value = u.firstName || '';
@@ -616,22 +616,22 @@
         async function bookAndPay() {
             document.getElementById('step4').classList.remove('hidden');
             loader(true);
-            console.log(data);
+           // console.log(data);
             token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                const res = await fetch('http://127.0.0.1:8001/api/bookings/', {
+                const res = await fetch('https://adefemecommerce.onrender.com/api/bookings/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
                     body: JSON.stringify(data)
                 });
                 const booking = await res.json();
                 data.orderId = booking._id;
-                console.log(booking, 'test here');
+                //console.log(booking, 'test here');
                 //console.log(booking.status.ok)
                 if(res.ok){
                     notify('Booking successful', 'success');
                     try{
-                    const paymentRes = await fetch(`http://127.0.0.1:8001/api/payments/initiate`, {
+                    const paymentRes = await fetch(`https://adefemecommerce.onrender.com/api/payments/initiate`, {
                         method: 'POST',
                         headers: { 
                             'Content-Type' : 'application/json',

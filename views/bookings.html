@@ -113,7 +113,7 @@
 
         
 //hadle control flow for if user is not an admin
-        fetch('http://127.0.0.1:8001/api/users/getuser', {
+        fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${storage = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken') }`
@@ -126,11 +126,11 @@
                 let apiCall;
                 let display;
                 if (role == 'admin') {
-                    apiCall = 'http://127.0.0.1:8001/api/bookings'
+                    apiCall = 'https://adefemecommerce.onrender.com/api/bookings'
                     display = "block";
                 }
                 else{
-                    apiCall = 'http://127.0.0.1:8001/api/bookings/user'
+                    apiCall = 'https://adefemecommerce.onrender.com/api/bookings/user'
                     addProduct.style.display = "none";
                     display = "none";
                 }
@@ -163,8 +163,8 @@
 
                         
                     });
-                    console.log('here')
-                    console.log(role ,'here')
+                   // console.log('here')
+                   // console.log(role ,'here')
 
                     
         });
@@ -187,7 +187,7 @@
                     const bookingId = e.target.getAttribute('data-id');
                     if (confirm('Are you sure you want to delete this booking?')) {
                         try {
-                            const res = await fetch(`http://127.0.0.1:8001/api/bookings/delete/${bookingId}`, {
+                            const res = await fetch(`https://adefemecommerce.onrender.com/api/bookings/delete/${bookingId}`, {
                                 method: 'DELETE',
                                 headers: {
                                     'Authorization': `Bearer ${storage = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken') }`
@@ -214,7 +214,7 @@
                         const bookingId = e.target.getAttribute('data-id');
                         if (confirm('Are you sure you want to update this booking?')) {
                             try {
-                                const res = await fetch(`http://127.0.0.1:8001/api/bookings/update/${bookingId}`, {
+                                const res = await fetch(`https://adefemecommerce.onrender.com/api/bookings/update/${bookingId}`, {
                                     method: 'PUT',
                                     headers: {
                                         'Authorization': `Bearer ${storage = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : sessionStorage.getItem('authToken')}`

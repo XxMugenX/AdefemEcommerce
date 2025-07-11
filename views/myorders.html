@@ -312,7 +312,7 @@
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             if (!token) return showNotification('You must be logged in to view orders.', 'error');
 
-            await fetch('http://127.0.0.1:8001/api/users/getuser', {
+            await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
                 headers: { Authorization: `Bearer ${token}` }
             }).then(res => res.json()).then(data => role = data.role);
 
@@ -323,7 +323,7 @@
             }
 
             try {
-                const res = await fetch(`http://127.0.0.1:8001/api/orders/${route}`, {
+                const res = await fetch(`https://adefemecommerce.onrender.com/api/orders/${route}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await res.json();
@@ -347,7 +347,7 @@
             data.forEach(order => {
                 const orderEl = document.createElement('div');
                 orderEl.className = 'order';
-                console.log(order);
+                //console.log(order);
                 let itemsHtml = '';
                 order.items.forEach(item => {
                     itemsHtml += `<div>• ${item.service?.name || 'Unnamed'} × ${item.quantity}</div>`;
@@ -400,7 +400,7 @@
         async function updateOrder(orderId) {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                await fetch(`http://127.0.0.1:8001/api/orders/${orderId}`, {
+                await fetch(`https://adefemecommerce.onrender.com/api/orders/${orderId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -416,7 +416,7 @@
         async function updateOrderProcess(orderId) {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                await fetch(`http://127.0.0.1:8001/api/orders/update/${orderId}`, {
+                await fetch(`https://adefemecommerce.onrender.com/api/orders/update/${orderId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

@@ -450,7 +450,7 @@
         async function fetchCategories() {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                const categories = await fetch('http://127.0.0.1:8001/api/categories', {
+                const categories = await fetch('https://adefemecommerce.onrender.com/api/categories', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }).then(res => res.json());
 
@@ -470,8 +470,8 @@
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
                 const url = categoryId
-                    ? `http://127.0.0.1:8001/api/services?category=${categoryId}`
-                    : `http://127.0.0.1:8001/api/services`;
+                    ? `https://adefemecommerce.onrender.com/api/services?category=${categoryId}`
+                    : `https://adefemecommerce.onrender.com/api/services`;
                 const services = await fetch(url, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }).then(res => res.json());
@@ -481,7 +481,7 @@
                     const card = document.createElement('div');
                     card.className = 'service-card';
                     card.innerHTML = `
-            <img src="http://127.0.0.1:8001/api/services/${service._id}/image" alt="${service.name}" />
+            <img src="https://adefemecommerce.onrender.com/api/services/${service._id}/image" alt="${service.name}" />
             <h3>${service.name}</h3>
             <p>${service.description || 'No description available.'}</p>
             <div class="price">£${service.price}</div>
@@ -497,7 +497,7 @@
         async function addToCart(serviceId) {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                await fetch('http://127.0.0.1:8001/api/carts/add', {
+                await fetch('https://adefemecommerce.onrender.com/api/carts/add', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -515,7 +515,7 @@
         async function fetchCartItems() {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                const res = await fetch('http://127.0.0.1:8001/api/carts/', {
+                const res = await fetch('https://adefemecommerce.onrender.com/api/carts/', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }).then(res => res.json());
 
@@ -556,7 +556,7 @@
         async function updateQuantity(serviceId, quantity) {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                await fetch(`http://127.0.0.1:8001/api/carts/update`, {
+                await fetch(`https://adefemecommerce.onrender.com/api/carts/update`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -573,7 +573,7 @@
         async function removeFromCart(serviceId) {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                await fetch(`http://127.0.0.1:8001/api/carts/remove/${serviceId}`, {
+                await fetch(`https://adefemecommerce.onrender.com/api/carts/remove/${serviceId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

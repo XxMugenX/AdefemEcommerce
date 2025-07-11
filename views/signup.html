@@ -172,7 +172,7 @@
             <input type="text" id="fullName" name="fullName" required />
 
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required minlength="3" />
+            <input type="text" id="username" name="username" required minlength="3" autocomplete="off" />
 
             <label for="phone">Phone Number:</label>
             <input type="tel" id="phone" name="phone" required pattern="^[0-9]{7,15}$" />
@@ -189,7 +189,7 @@
 
             <label for="password">Password:</label>
             <div class="password-field">
-                <input type="password" id="password" name="password" required minlength="6" />
+                <input type="password" id="password" name="password" required minlength="6" autocomplete="off" />
                 <span class="toggle-password" onclick="toggleVisibility('password')">Show</span>
             </div>
 
@@ -240,9 +240,9 @@
             showNotification('Checking username...', 'success');
 
             try {
-                const res = await fetch(`http://127.0.0.1:8001/api/users/check-username?username=${username}`);
+                const res = await fetch(`https://adefemecommerce.onrender.com/api/users/check-username?username=${username}`);
                 const data = await res.json();
-                console.log(data.available);
+                //console.log(data.available);
                 if (data.available == true ) {
                     showNotification('Username is available!', 'success');
                 } else {
@@ -277,7 +277,7 @@
             };
 
             try {
-                const res = await fetch('http://127.0.0.1:8001/api/users/signup', {
+                const res = await fetch('https://adefemecommerce.onrender.com/api/users/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(user)
