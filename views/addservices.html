@@ -286,6 +286,8 @@
                     </footer>
 
     <script>
+        
+
         // Update Year
             document.getElementById("year").textContent = new Date().getFullYear();
         const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
@@ -293,6 +295,14 @@
         const newCategoryFields = document.getElementById('newCategoryFields');
         const catMessage = document.getElementById('catMessage');
         const serviceMessage = document.getElementById('serviceMessage');
+
+        async function userCheck() {
+                const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+                const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                if (!res.ok) window.location.href = './login.html'
+            }
 
         async function fetchCategories() {
         try {
@@ -434,6 +444,8 @@
                 await sessionStorage.removeItem('authToken');
                 window.location.href = "login.html"
             }
+
+            userCheck()
     </script>
     </body>
     </html>

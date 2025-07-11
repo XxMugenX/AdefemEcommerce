@@ -90,6 +90,14 @@
             </div>
             </footer>
     <script>
+        async function userCheck() {
+                const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+                const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                if (!res.ok) window.location.href = './login.html'
+            }
+
         // Update Year
             document.getElementById("year").textContent = new Date().getFullYear();            
             const addProduct = document.querySelector('.addProduct');
@@ -238,7 +246,9 @@
                         await localStorage.removeItem('authToken');
                         await sessionStorage.removeItem('authToken');
                         window.location.href = "login.html"
-                    }      
+                    }  
+                    
+                    userCheck()
     </script>    
 </body>
 </html>

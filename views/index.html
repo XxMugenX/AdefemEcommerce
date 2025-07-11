@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Adefem Collection</title>
+    <title>Adefem Limited</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
@@ -456,6 +456,16 @@
     </footer>
 
     <script>
+
+    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    
+        if (!token) window.location.href ='./login.html'
+        async function userCheck(){
+        const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        if (!res.ok) window.location.href = './login.html'
+        }
         // Hero Slideshow Script
         let currentSlide = 0;
         const slides = document.querySelectorAll(".slide");
@@ -509,6 +519,7 @@
                 await sessionStorage.removeItem('authToken');
                 window.location.href = "login.html"
             }
+            userCheck();
     </script>
 </body>
 
