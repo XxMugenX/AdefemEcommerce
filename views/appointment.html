@@ -615,7 +615,7 @@
             })
             if (!result.ok) {
                 notify('Redirecting...Please create an account or login', 'success')
-                window.location.href = './login.html'
+                window.location.href = './signup.html'
             }
             const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', { headers: { Authorization: `Bearer ${token}` } });
             const u = await res.json();
