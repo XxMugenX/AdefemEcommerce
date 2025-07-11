@@ -34,6 +34,7 @@ This project lets customers:
 ---
 
 ## 📁 **Project Structure**
+```plaintext
 📂 root/
 ├── index.html             # Homepage
 ├── appointment.html       # Booking page
