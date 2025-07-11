@@ -351,11 +351,11 @@
             <a href="bookings.html" style="text-decoration: none;">Dashboard</a>
         </div>
 
-        <div class="navbar-center">
+        <!-- <div class="navbar-center">
             <div class="category-nav">
-                <ul id="categoryList"></ul>
+                <ul id="categoryList"> ALL</ul>
             </div>
-        </div>
+        </div> -->
 
         <div class="navbar-right">
             <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
@@ -455,24 +455,24 @@ async function userCheck() {
             if (selected) selected.classList.add('active');
         }
 
-        async function fetchCategories() {
-            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            try {
-                const categories = await fetch('https://adefemecommerce.onrender.com/api/categories', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                }).then(res => res.json());
+        // async function fetchCategories() {
+        //     const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        //     try {
+        //         const categories = await fetch('https://adefemecommerce.onrender.com/api/categories', {
+        //             headers: { 'Authorization': `Bearer ${token}` }
+        //         }).then(res => res.json());
 
-                categoryList.innerHTML = `<li><a href="#" class="category-link active" onclick="selectCategory('')">All</a></li>`;
+        //         categoryList.innerHTML = `<li><a href="#" class="category-link active" onclick="selectCategory('')">All</a></li>`;
 
-                categories.forEach(cat => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<a href="#" class="category-link" onclick="selectCategory('${cat._id}')">${cat.name}</a>`;
-                    categoryList.appendChild(li);
-                });
-            } catch {
-                showNotification('Failed to load categories', 'error');
-            }
-        }
+        //         categories.forEach(cat => {
+        //             const li = document.createElement('li');
+        //             li.innerHTML = `<a href="#" class="category-link" onclick="selectCategory('${cat._id}')">${cat.name}</a>`;
+        //             categoryList.appendChild(li);
+        //         });
+        //     } catch {
+        //         showNotification('Failed to load categories', 'error');
+        //     }
+        // }
 
         async function fetchServices(categoryId = '') {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
