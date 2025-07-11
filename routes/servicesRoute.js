@@ -11,7 +11,7 @@ const { createService, getServices, getServicesByService, getServiceImage, getSe
 const { protect, adminOnly } = require('../middlewares/auth');
 
 router.post('/', upload.single('image') ,protect, adminOnly, createService);
-router.get('/',protect, getServices);
+router.get('/', getServices);
 router.get('/service', protect, getServicesByService);
 router.get('/:id/image', getServiceImage);
 router.get('/:id', protect, getServicesById);

@@ -418,13 +418,13 @@
 
     <script>
 
-async function userCheck() {
-        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-        const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-        if (!res.ok) window.location.href = './login.html'
-    }
+// async function userCheck() {
+//         const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+//         const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+//             headers: { Authorization: `Bearer ${token}` }
+//         })
+//         if (!res.ok) window.location.href = './login.html'
+//     }
         // Update Year
             document.getElementById("year").textContent = new Date().getFullYear();
         const notification = document.getElementById('notification');
@@ -505,20 +505,29 @@ async function userCheck() {
         async function addToCart(serviceId) {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                await fetch('https://adefemecommerce.onrender.com/api/carts/add', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ serviceId, quantity: 1 })
-                });
-                showNotification('Added to cart');
-                fetchCartItems();
-            } catch {
-                showNotification('Error adding to cart', 'error');
+                const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            if (res.ok){
+                    await fetch('https://adefemecommerce.onrender.com/api/carts/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ serviceId, quantity: 1 })
+                    });
+                    showNotification('Added to cart successfully');
+                    fetchCartItems();} else {
+                        showNotification('Please create an account with us and login', 'error')
+                        showNotification('Redirecting to Signup page', 'success')
+                        window.location.href = './signup.html';
+
+                    }
+                } catch {
+                    showNotification('Error adding to cart', 'error');
+                }
             }
-        }
 
         async function fetchCartItems() {
             const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
@@ -605,7 +614,7 @@ async function userCheck() {
                 window.location.href = "login.html"
             }
 
-        userCheck()
+        //userCheck()
 
         fetchServices();
         fetchCategories();

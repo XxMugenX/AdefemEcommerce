@@ -334,13 +334,13 @@
 </body>
 
 <script>
-    async function userCheck() {
-            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-            if (!res.ok) window.location.href = './login.html'
-        }
+    // async function userCheck() {
+    //         const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    //         const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+    //             headers: { Authorization: `Bearer ${token}` }
+    //         })
+    //         if (!res.ok) window.location.href = './login.html'
+    //     }
     // Update Year
         document.getElementById("year").textContent = new Date().getFullYear();
         const logout = async () => {
@@ -349,7 +349,7 @@
                 window.location.href = "login.html"
             }
 
-            userCheck()
+            //userCheck()
 </script>
 
 </html>
