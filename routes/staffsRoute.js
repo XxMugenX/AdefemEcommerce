@@ -4,6 +4,6 @@ const { createStaff, getStaff } = require('../controllers/staffcontroller');
 const { protect, adminOnly } = require('../middlewares/auth');
 
 router.post('/',protect, adminOnly, createStaff);
-router.get('/',protect, getStaff);
+router.get('/', getStaff);
 
 module.exports = router;
