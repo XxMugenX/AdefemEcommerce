@@ -95,7 +95,10 @@
                 const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
                     headers: { Authorization: `Bearer ${token}` }
                 })
-                if (!res.ok) window.location.href = './login.html'
+                if (!res.ok) {
+                showNotification('Redirecting...Please create an account or login', 'success')
+                window.location.href = './login.html'
+            }
             }
 
         // Update Year

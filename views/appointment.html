@@ -508,7 +508,10 @@
             document.querySelectorAll('.step-link').forEach((l, i) => l.classList.toggle('active', i === currentStep - 1));
             const titles = ['Select Service', 'Select Date & Time', 'Basic Details', 'Proceed to Payment'];
             document.getElementById('step-title').textContent = titles[currentStep - 1];
-            if (currentStep === 3) loadUser();
+            if (currentStep === 3) {
+                
+                
+                loadUser();}
         }
 
         function notify(msg, type) {
@@ -606,6 +609,14 @@
         async function loadUser() {
             token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             loader(true);
+
+            const result = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            if (!result.ok) {
+                notify('Redirecting...Please create an account or login', 'success')
+                window.location.href = './login.html'
+            }
             const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', { headers: { Authorization: `Bearer ${token}` } });
             const u = await res.json();
             data.userId = u._id;

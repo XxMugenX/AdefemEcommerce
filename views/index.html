@@ -18,6 +18,24 @@
             color: #3b2f2f;
         }
 
+        .notification {
+            display: none;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .notification.success {
+            background: #42c474;
+            color: #fff;
+        }
+
+        .notification.error {
+            background: #b94b4b;
+            color: #fff;
+        }
+
         .navbar {
             background-color: #fff;
             border-bottom: 1px solid #eee;
@@ -301,8 +319,10 @@
             <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px;background-color: transparent;" /></a>
             <a href="index.html">Home</a>
             <a href="bookings.html">Dashboard</a>
+            <div class="notification" id="notification"></div>
         </div>
         <div class="navbar-right">
+            
             <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
             <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
             <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
@@ -310,6 +330,7 @@
             <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
         </div>
     </div>
+    <div class="notification" id="notification"></div>
 
     <!-- Hero Slideshow -->
     <div class="slideshow-container">
@@ -458,14 +479,22 @@
     <script>
 
     const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        function notify(msg, type) {
+                    const n = document.getElementById('notification');
+                    n.textContent = msg;
+                    n.className = `notification ${type}`;
+                    n.style.display = 'block';
+                    setTimeout(() => n.style.display = 'none', 3000);
+        }
     
-        //if (!token) window.location.href ='./login.html'
-        // async function userCheck(){
-        // const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
-        //     headers: { Authorization: `Bearer ${token}` }
-        // })
-        // if (!res.ok) window.location.href = './login.html'
-        // }
+    
+        // if (!token) window.location.href ='./login.html'
+        async function userCheck(){
+        const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        if (!res.ok) notify('you are currently logged in as guest', 'success')
+        }
         // Hero Slideshow Script
         let currentSlide = 0;
         const slides = document.querySelectorAll(".slide");
@@ -519,7 +548,7 @@
                 await sessionStorage.removeItem('authToken');
                 window.location.href = "login.html"
             }
-            //userCheck();
+            userCheck();
     </script>
 </body>
 
