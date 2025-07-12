@@ -294,13 +294,15 @@
     </footer>
 
     <script>
-        // async function userCheck() {
-        //         const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-        //         const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
-        //             headers: { Authorization: `Bearer ${token}` }
-        //         })
-        //         if (!res.ok) window.location.href = './login.html'
-        //     }
+        async function userCheck() {
+                const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+                const res = await fetch('https://adefemecommerce.onrender.com/api/users/getuser', {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                if (!res.ok) {
+                    showNotification('Please create an account or signup...Redirecting', 'success');
+                    window.location.href = './signup.html'}
+            }
 
         document.getElementById("year").textContent = new Date().getFullYear();
         const notification = document.getElementById('notification');

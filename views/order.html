@@ -564,7 +564,7 @@ async function userCheck() {
                         break; // Exit the loop once the selected radio button is found
                     }
                 }
-                console.log("This is the payment method chosen",paymentMethod);
+                //console.log("This is the payment method chosen",paymentMethod);
             // Validate required fields
             if (Object.values(shippingAddress).some(v => !v)) {
                 return showNotification("Please fill in all shipping details", "error");
@@ -618,6 +618,7 @@ async function userCheck() {
 }
                 if(paymentMethod  == 'cash on delivery'){
                     window.location.href = './thankyou.html'
+
                 }
             } catch (err) {
                 showNotification(err.message, "error");
