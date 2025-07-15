@@ -40,8 +40,8 @@ exports.initiatePayment1 = async (req, res) => {
         success_url: 'https://adefemlimited.onrender.com/thankyou.html',
         cancel_url: 'https://adefemlimited.onrender.com/appointments.html',
         });
-        console.log('here')
-        console.log(session.url);
+        // console.log('here')
+        // console.log(session.url);
 
         // Respond with the URL to redirect the customer
        // res.json({ url: session.url });
@@ -157,7 +157,7 @@ exports.handleWebhook1 = async (req, res) => {
 
     try {
         event = stripe.webhooks.constructEvent(
-            req.body,
+            req.rawBody,
             sig,
             endpointSecret
         );

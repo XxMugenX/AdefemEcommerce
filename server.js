@@ -27,6 +27,7 @@ const payments = require("./routes/paymentRoute");
 const reviews = require("./routes/reviewRoute");
 
 //middleware
+
 app.use(express.json());
 app.use('/api/bookings', bookings );
 app.use('/api/services', services);
