@@ -16,6 +16,7 @@ connectDB();
 
 
 //routes
+const paymentController = require('./controllers/paymentcontroller');
 const bookings = require('./routes/bookingsRoute');
 const services = require("./routes/servicesRoute");
 const users = require("./routes/usersRoute");
@@ -27,6 +28,11 @@ const payments = require("./routes/paymentRoute");
 const reviews = require("./routes/reviewRoute");
 
 //middleware
+
+app.post("/stripewebhook",
+    bodyParser.raw({ type: "application/json" }),
+    paymentController.handleWebhook1
+  );
 
 app.use(express.json());
 app.use('/api/bookings', bookings );

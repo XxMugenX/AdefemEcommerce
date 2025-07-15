@@ -157,7 +157,7 @@ exports.handleWebhook1 = async (req, res) => {
 
     try {
         event = stripe.webhooks.constructEvent(
-            req.rawBody,
+            req.body,
             sig,
             endpointSecret
         );
