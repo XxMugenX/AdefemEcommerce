@@ -644,7 +644,7 @@
            // console.log(data);
             token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
-                const res = await fetch('https://adefemecommerce.onrender.com/api/bookings/', {
+                const res = await fetch('http://127.0.0.1:8001/api/bookings/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
                     body: JSON.stringify(data)
@@ -656,7 +656,7 @@
                 if(res.ok){
                     notify('Booking successful', 'success');
                     try{
-                    const paymentRes = await fetch(`https://adefemecommerce.onrender.com/api/payments/initiate`, {
+                    const paymentRes = await fetch(`http://127.0.0.1:8001/api/payments/initiate`, {
                         method: 'POST',
                         headers: { 
                             'Content-Type' : 'application/json',
@@ -668,9 +668,9 @@
                         })
                     }).then(res => res.json());
                     
-                    if (paymentRes.authorization_url) {
+                    if (paymentRes.url) {
                                 notify('Redirecting to payment page', 'success');
-                                window.location.href = paymentRes.authorization_url;
+                                window.location.href = paymentRes.url;
                             } else {
                                 throw new Error(paymentRes.message || "Payment failed");
                             }               

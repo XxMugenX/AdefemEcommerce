@@ -4,8 +4,64 @@ const Payment = require("../models/payment.model");
 require('dotenv').config();
 const Order = require("../models/order.model");
 const Booking = require('../models/bookings.model');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET_KEY;
+
+exports.initiatePayment1 = async (req, res) => {
+    try {
+        const { email, amount, orderId, paymentMethod } = req.body;
+        //console.log(orderId);
+        const order = await Order.findById(orderId);
+        //console.log(order, 'order test');
+        if (!order) {
+            const booking = await Booking.findById(orderId)
+            //console.log(booking,'booking test');
+            if (!booking) {
+                return res.status(404).json({ error: "Order not found" });
+            }
+        }
+
+        const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'payment',
+        line_items: [
+            {
+            price_data: {
+                currency: 'gbp',
+                product_data: {
+                name: 'Total Order',
+                },
+                unit_amount: amount * 100, // in pence 
+            },
+            quantity: 1,
+            },
+        ],
+        success_url: 'https://adefemlimited.onrender.com/thankyou.html',
+        cancel_url: 'https://adefemlimited.onrender.com/appointments.html',
+        });
+        console.log('here')
+        console.log(session.url);
+
+        // Respond with the URL to redirect the customer
+       // res.json({ url: session.url });
+
+        // Save pending payment
+        await Payment.create({
+        user: req.user._id,
+        order: orderId,
+        amount,
+        paymentMethod: paymentMethod || "stripe",
+        reference : session.id,
+        paymentStatus: "Pending"
+        });
+
+        res.status(200).json({ url: session.url });
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ error: err.message });
+    }
+    };
 
 // POST /api/payments/initiate
 exports.initiatePayment = async (req, res) => {
@@ -92,6 +148,51 @@ exports.verifyPayment = async (req, res) => {
         res.status(500).json({ error: err.message });
         }
 };
+
+exports.handleWebhook1 = async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(
+            req.body,
+            sig,
+            endpointSecret
+        );
+    } catch (err) {
+        console.log(`Webhook signature verification failed: ${err.message}`);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    //  Handles the event type
+    if (event.type === 'checkout.session.completed') {
+        const session = event.data.object;
+        //const data = event.data;
+        //const ref = data.reference;
+
+        const payment = await Payment.findOne({ reference: session.id });
+        if (payment && payment.paymentStatus !== "Paid") {
+            payment.paymentStatus = "Paid";
+            payment.channel = session.payment_method_types;
+            payment.currency = session.currency || "gbp"; //change to GBP when in production
+            await payment.save();
+
+            const order = await Order.findById(payment.order);
+            if (order) {
+                order.status = "Processing";
+                await order.save();
+            }
+
+            console.log(`💰 Payment for Session ${session.id} succeeded!`);
+
+        }
+
+        // Returns a 200 response to acknowledge receipt of the event
+        res.json({ received: true });
+    }
+}
 
 // POST /api/payments/webhook
 exports.handleWebhook = async (req, res) => {

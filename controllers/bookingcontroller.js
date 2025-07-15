@@ -2,6 +2,7 @@ const Booking = require('../models/bookings.model');
 const Staff = require('../models/staff.model');
 const Service = require('../models/service.model');
 const User = require('../models/user.model');
+const bookingMail = require('../utils/sendemail')
 
 //creates booking and handles booking and staff availability conflicts
 const createBooking = async (req, res) => {
@@ -83,6 +84,10 @@ const createBooking = async (req, res) => {
             notes: notes
         });
         await booking.save();
+        const user = await User.findById(userId)
+        bookingMail.userMail(process.env.EMAIL, user.email, service.name, user.fullName, date)
+        bookingMail.adminMail(process.env.EMAIL, process.env.EMAIL, service.name, user.fullName, date)
+
         res.status(200).json(booking);
 
     } catch (err) {

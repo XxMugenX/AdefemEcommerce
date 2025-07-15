@@ -391,10 +391,10 @@
             </label>
         
             <label class="payment-option">
-                <input type="radio" name="payment_method" value="paystack" checked>
-                <span>Paystack</span>
-                <img src="./logo/Paystack_idSL4BuSLF_1.png" alt="Paystack" />
-                <p> <a href="https://paystack.com/" style="text-decoration: none;">What is Paystack?</a></p>
+                <input type="radio" name="payment_method" value="stripe" checked>
+                <span>Stripe</span>
+                <img src="./logo/Stripe wordmark - blurple (large).png" alt="Stripe" />
+                <p> <a href="https://stripe.com/" style="text-decoration: none;">What is Stripe?</a></p>
             </label>
         </div>
           
@@ -578,7 +578,7 @@ async function userCheck() {
 
             try {
                 // 1. Create Order
-                const orderRes = await fetch('https://adefemecommerce.onrender.com/api/orders/', {
+                const orderRes = await fetch('http://127.0.0.1:8001/api/orders/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -595,8 +595,8 @@ async function userCheck() {
                 // console.log(orderData);
 
                 // 2. Initiate payment
-                if (paymentMethod == 'paystack'){
-                const paymentRes = await fetch('https://adefemecommerce.onrender.com/api/payments/initiate', {
+                if (paymentMethod == 'stripe'){
+                const paymentRes = await fetch('http://127.0.0.1:8001/api/payments/initiate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -608,7 +608,7 @@ async function userCheck() {
                         orderId
                     })
                 });
-
+                if(paymentRes.ok) {
                 // 3. Clear cart
                 await fetch('https://adefemecommerce.onrender.com/api/carts/clear', {
                     method: 'DELETE',
@@ -616,11 +616,14 @@ async function userCheck() {
                 });
 
                 const paymentData = await paymentRes.json();
-                if (paymentData.authorization_url) {
-                    window.location.href = paymentData.authorization_url;
+                if (paymentData.url) {
+                    window.location.href = paymentData.url;
                 } else {
                     throw new Error(paymentData.message || "Payment failed");
                 }
+            }else{
+                showNotification('Payment failed', 'error');
+            }
 }
                 if(paymentMethod  == 'cash on delivery'){
                     window.location.href = './thankyou.html'
