@@ -578,7 +578,7 @@ async function userCheck() {
 
             try {
                 // 1. Create Order
-                const orderRes = await fetch('http://127.0.0.1:8001/api/orders/', {
+                const orderRes = await fetch('https://adefemecommerce.onrender.com/api/orders/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -596,7 +596,7 @@ async function userCheck() {
 
                 // 2. Initiate payment
                 if (paymentMethod == 'stripe'){
-                const paymentRes = await fetch('http://127.0.0.1:8001/api/payments/initiate', {
+                const paymentRes = await fetch('https://adefemecommerce.onrender.com/api/payments/initiate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
