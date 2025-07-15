@@ -7,14 +7,14 @@ const readyForDelivery = require('../utils/sendemail')
 
 // Setup mailer
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: "smtp.hostinger.com",
+    port: 465,
+    secure : true,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.PASSWORD
     }
     });
-
-
 
 // POST /api/orders – Place an order from the cart
 exports.placeOrder = async (req, res) => {

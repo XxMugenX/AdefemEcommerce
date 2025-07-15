@@ -181,7 +181,7 @@ exports.handleWebhook1 = async (req, res) => {
 
             const order = await Order.findById(payment.order);
             if (order) {
-                order.status = "Processing";
+                order.status = "Paid";
                 await order.save();
             }
 
@@ -224,7 +224,7 @@ exports.handleWebhook = async (req, res) => {
 
         const order = await Order.findById(payment.order);
         if (order) {
-            order.status = "Processing";
+            order.status = "Paid";
             await order.save();
         }
         }
