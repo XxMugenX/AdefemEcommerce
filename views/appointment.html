@@ -52,6 +52,11 @@
             font-size: 14px;
         }
 
+        header{
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
 
         header,
         footer {
@@ -100,6 +105,9 @@
         }
 
         .notification {
+            position: sticky;
+            top: 0;
+            z-index: 999;
             display: none;
             padding: 10px;
             margin: 15px 0;
@@ -303,6 +311,9 @@
 
         @media(max-width: 768px) {
             .navbar {
+                position: sticky;
+                top: 0;
+                z-index: 999;
                 flex-direction: column;
                 align-items: flex-start;
             }

@@ -13,12 +13,15 @@
 
         body {
             margin: 0;
+            padding: 0;
+            margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #fffaf4;
             color: #3b2f2f;
         }
 
         .notification {
+            
             display: none;
             padding: 10px;
             margin: 15px 0;
@@ -37,6 +40,7 @@
         }
 
         .navbar {
+            /* position:relative; */
             background-color: #fff;
             border-bottom: 1px solid #eee;
             padding: 10px 20px;
@@ -50,17 +54,31 @@
         .navbar-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
         }
 
         .logo {
             width: 40px;
             height: 40px;
-            background-color: #ccc;
+            background-color: transparent;
             border-radius: 4px;
         }
 
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #3b2f2f;
+            }
+
         .navbar a {
+            text-decoration: none;
+            color: #3b2f2f;
+            font-size: 14px;
+        }
+
+        .navbar-left a,
+        .navbar-right a {
             text-decoration: none;
             color: #3b2f2f;
             font-size: 14px;
@@ -286,9 +304,34 @@
 
         @media (max-width: 768px) {
             .navbar {
-                flex-direction: column;
-                align-items: flex-start;
+                position: sticky;
+                top: 0;
+                padding: 10px 10px;
+                z-index: 999;
+                flex-wrap: wrap;
             }
+
+            .navbar-right {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .navbar-right.show {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .navbar-left {
+                /* width: 100%; */
+                justify-content: space-between;
+            }
+            
 
             .hero-text h1 {
                 font-size: 2rem;
@@ -312,17 +355,21 @@
 </head>
 
 <body>
-
+<!-- <div class="container"> -->
     <!-- Navbar -->
     <div class="navbar">
         <div class="navbar-left">
-            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo" style="height: 60px; width: 80px;background-color: transparent;" /></a>
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo"
+                    style="height: 60px; width: 70px;" /></a>
             <a href="index.html">Home</a>
             <a href="bookings.html">Dashboard</a>
-            <div class="notification" id="notification"></div>
         </div>
-        <div class="navbar-right">
-            
+
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <div class="navbar-right" id="navbarRight">
             <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
             <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
             <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
@@ -477,6 +524,12 @@
     </footer>
 
     <script>
+
+        function toggleMenu() {
+                const nav = document.getElementById('navbarRight');
+                nav.classList.toggle('show');
+            }
+
 
     const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
         function notify(msg, type) {
