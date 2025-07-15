@@ -175,7 +175,7 @@ exports.handleWebhook1 = async (req, res) => {
         const payment = await Payment.findOne({ reference: session.id });
         if (payment && payment.paymentStatus !== "Paid") {
             payment.paymentStatus = "Paid";
-            payment.channel = session.payment_method_types;
+            payment.channel = session.payment_method_types[0];
             payment.currency = session.currency || "gbp"; //change to GBP when in production
             await payment.save();
 
