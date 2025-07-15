@@ -3,6 +3,7 @@ require('dotenv').config();
 const connectDB = require("./config/db");
 const cors = require('cors');
 const app = express();
+const bodyParser = require('body-parser')
 require('./utils/sendemail')
 
 
