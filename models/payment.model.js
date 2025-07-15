@@ -31,7 +31,7 @@ const paymentSchema = new mongoose.Schema({
         },
         currency: {
         type: String,
-        default: "NGN"
+        default: "gbp"
         },
         paymentStatus: {
         type: String,

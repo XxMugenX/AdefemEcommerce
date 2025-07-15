@@ -15,6 +15,14 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+transporter.verify((error, success) => {
+  if (error) {
+    console.log("VERIFY ERROR:", error);
+  } else {
+    console.log("Server is ready");
+  }
+});
+
 // Run every hour to find bookings in the next 24 hours
 cron.schedule('0 * * * *', async () => {
   const now = new Date();
