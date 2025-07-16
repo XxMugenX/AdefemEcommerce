@@ -27,6 +27,7 @@ const categories = require("./routes/categoryRoute");
 const carts = require("./routes/cartRoute");
 const payments = require("./routes/paymentRoute");
 const reviews = require("./routes/reviewRoute");
+const contacts = require("./routes/sendMailRoute")
 
 //middleware
 
@@ -45,6 +46,7 @@ app.use('/api/categories', categories);
 app.use('/api/carts', carts);
 app.use('/api/payments', payments);
 app.use('/api/reviews', reviews);
+app.use('/api/contact', contacts);
 
 
 app.listen(PORT, () => {

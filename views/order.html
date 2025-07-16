@@ -343,10 +343,6 @@
             <label for="country">Country</label>
             <select id="country" name="country" required>
                 <option value="">Select Country</option>
-                <option value="Nigeria">Nigeria</option>
-                <option value="Ghana">Ghana</option>
-                <option value="Kenya">Kenya</option>
-                <option value="South Africa">South Africa</option>
             </select>
         </div>
 
@@ -427,9 +423,9 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p><i class="fas fa-envelope"></i> info@example.com</p>
-                <p><i class="fas fa-phone-alt"></i> +44 079 0918 9473</p>
-                <p><i class="fas fa-map-marker-alt"></i> 74 Prestwick Road, Ingst, United Kingdom</p>
+                <p><i class="fas fa-envelope"></i> info@adefemecollections.co.uk</p>
+                <p><i class="fas fa-phone-alt"></i> +44 740 0157 802</p>
+                <p><i class="fas fa-map-marker-alt"></i> 20 Prince William court, Clarendon rd , Ashford</p>
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-x-twitter"></i></a>
@@ -457,32 +453,75 @@ async function userCheck() {
     }
         // Update Year
         document.getElementById("year").textContent = new Date().getFullYear();
-        const statesByCountry = {
-            "Nigeria": [
-                "Abuja", "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue",
-                "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "Gombe",
-                "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos",
-                "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers",
-                "Sokoto", "Taraba", "Yobe", "Zamfara"
-            ],
-            "Ghana": ["Accra", "Ashanti", "Volta", "Western"],
-            "Kenya": ["Nairobi", "Mombasa", "Kisumu"],
-            "South Africa": ["Gauteng", "Western Cape", "KwaZulu-Natal"]
-        };
+                let countriesStates = [];
 
-        document.getElementById('country').addEventListener('change', function () {
-            const selectedCountry = this.value;
-            const states = statesByCountry[selectedCountry] || [];
-            const stateSelect = document.getElementById('state');
+                async function loadCountriesAndStates() {
+  try {
+    // ✅ Use relative path to your JSON file
+    const res = await fetch('./places.json');
+                countriesStates = await res.json();
+                console.log(countriesStates)
 
-            stateSelect.innerHTML = '<option value="">Select State</option>';
-            states.forEach(state => {
-                const option = document.createElement('option');
+                const countrySelect = document.getElementById('country');
+                countrySelect.innerHTML = '<option value="">Select Country</option>';
+
+    countriesStates.forEach(item => {
+      const option = document.createElement('option');
+                option.value = item.name;
+                option.textContent = item.name;
+                countrySelect.appendChild(option);
+    });
+
+  } catch (error) {
+                    console.error('Error loading countries and states:', error);
+  }
+}
+
+                document.getElementById('country').addEventListener('change', function () {
+  const selectedCountry = this.value;
+  const states = countriesStates.find(item => item.name === selectedCountry)?.states || [];
+
+                const stateSelect = document.getElementById('state');
+                stateSelect.innerHTML = '<option value="">Select State</option>';
+
+  states.forEach(state => {
+    const option = document.createElement('option');
                 option.value = state;
                 option.textContent = state;
                 stateSelect.appendChild(option);
-            });
-        });
+  });
+});
+
+                // ✅ Load on page ready
+                loadCountriesAndStates();
+
+
+        // const statesByCountry = {
+        //     "Nigeria": [
+        //         "Abuja", "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue",
+        //         "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "Gombe",
+        //         "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos",
+        //         "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers",
+        //         "Sokoto", "Taraba", "Yobe", "Zamfara"
+        //     ],
+        //     "Ghana": ["Accra", "Ashanti", "Volta", "Western"],
+        //     "Kenya": ["Nairobi", "Mombasa", "Kisumu"],
+        //     "South Africa": ["Gauteng", "Western Cape", "KwaZulu-Natal"]
+        // };
+
+        // document.getElementById('country').addEventListener('change', function () {
+        //     const selectedCountry = this.value;
+        //     const states = statesByCountry[selectedCountry] || [];
+        //     const stateSelect = document.getElementById('state');
+
+        //     stateSelect.innerHTML = '<option value="">Select State</option>';
+        //     states.forEach(state => {
+        //         const option = document.createElement('option');
+        //         option.value = state;
+        //         option.textContent = state;
+        //         stateSelect.appendChild(option);
+        //     });
+        // });
 
         const cartContainer = document.getElementById('cartContainer');
         const notification = document.getElementById('notification');

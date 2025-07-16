@@ -60,6 +60,19 @@ cron.schedule('0 * * * *', async () => {
   });
 });
 
+exports.emailUs = async (from, subject, message) => {
+  const msg = {
+    from: from,
+    to: process.env.EMAIL,
+    subject: subject,
+    text: message
+  };
+  transporter.sendMail(msg, (err, info) => {
+    if (err) console.error('Failed to send:', err);
+    else console.log('Message sent');
+  })
+}
+
 exports.userMail = async (from, to, serviceName,user, date ) => {
   const msg = {
     from: from,
