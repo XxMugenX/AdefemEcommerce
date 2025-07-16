@@ -138,6 +138,81 @@
             animation: spin 1s linear infinite;
         }
 
+        .payment-options {
+            max-width: 600px;
+            margin: 20px 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+        .payment-option {
+            display: block;
+            border: 1px solid #ddd;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: border 0.3s ease;
+            }
+
+        .payment-option input[type="radio"] {
+            margin-right: 10px;
+            }
+
+        .payment-option p {
+            font-size: 13px;
+            color: #666;
+            margin: 5px 0 0;
+            }
+
+        .payment-option img {
+            margin-left: 10px;
+            height: 20px;
+            vertical-align: middle;
+            }
+
+        /* Tooltip container */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            }
+
+            /* Tooltip text */
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 140px;
+            background-color: #3b2f2f;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position above the element */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            }
+
+            /* Tooltip arrow */
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%; /* Arrow on bottom of tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #3b2f2f transparent transparent transparent;
+            }
+
+            /* Show tooltip on hover */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+            }
+
         @keyframes spin {
             100% {
                 transform: rotate(360deg);
@@ -410,16 +485,48 @@
             <!-- Step 3 -->
             <div class="step hidden" id="step3">
                 <label>First Name*</label>
-                <input type="text" id="firstname" />
+                <input type="text" id="firstname" required/>
                 <label>Last Name*</label>
-                <input type="text" id="lastname" />
+                <input type="text" id="lastname" required/>
                 <label>Email*</label>
-                <input type="email" id="email" />
+                <input type="email" id="email" required/>
                 <label>Phone*</label>
-                <input type="tel" id="phone" />
+                <input type="tel" id="phone" required/>
                 <label>Note</label>
                 <textarea id="note"></textarea>
                 <button onclick="prevStep()">Back</button>
+
+                <div class="payment-options">
+                    <label class="payment-option selected">
+                        <span class="tooltip">
+                            <input type="radio" name="payment_method" value="transfer" disabled style="width:13px; height: 13px; padding: 0px;   margin-right: 10px;border: none;border-radius: 0px;">
+                            <span>Direct bank transfer <i class="fa-solid fa-building-columns"></i></span>
+                            <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your
+                                order will not be shipped until the funds have cleared in our account.</p>
+                            <span class="tooltiptext">Currently unavailable</span>
+                        </span>
+                    </label>
+                
+                    <label class="payment-option">
+                        <span class="tooltip">
+                            <input type="radio" name="payment_method" value="check" disabled style="width:13px; height: 13px; padding: 0px;   margin-right: 10px;border: none;border-radius: 0px;">
+                            <span>Check payments</span>
+                            <span class="tooltiptext">Currently unavailable</span>
+                        </span>
+                    </label>
+                
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="cash on delivery" style="width:13px; height: 13px; padding: 0px;   margin-right: 10px;border: none;border-radius: 0px;">
+                        <span>Cash on delivery <i class="fa-solid fa-wallet"></i></span>
+                    </label>
+                
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="stripe" checked style="width:13px; height: 13px; padding: 0px;   margin-right: 10px;border: none;border-radius: 0px;">
+                        <span>Stripe</span>
+                        <img src="./logo/Stripe wordmark - blurple (large).png" alt="Stripe" />
+                        <p> <a href="https://stripe.com/" style="text-decoration: none;">What is Stripe?</a></p>
+                    </label>
+                </div>
                 <button onclick="nextStep()">Proceed to Payment</button>
             </div>
 
@@ -505,7 +612,18 @@
                 data.email = document.getElementById('email').value;
                 data.phone = document.getElementById('phone').value;
                 data.notes = document.getElementById('note').value;
+                console.log(data.firstName)
+                console.log(data.lastName)
+                console.log(data.email)
+                console.log(data.phone)
+
+                if(data.firstName  === '' || data.lastName === '' || data.email === '' || data.phone === '' ){
+                    
+                    notify('Please fill in your basic details')
+                }else{
+
                 bookAndPay();
+            }
                 return;
             }
             currentStep++;
@@ -641,7 +759,17 @@
         async function bookAndPay() {
             document.getElementById('step4').classList.remove('hidden');
             loader(true);
+            const radioButtons = document.getElementsByName('payment_method')
+            let paymentMethod = '';
+
+            for (let i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
+                    paymentMethod = radioButtons[i].value;
+                    break; // Exit the loop once the selected radio button is found
+                }
+            }
            // console.log(data);
+
             token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
             try {
                 const res = await fetch('https://adefemecommerce.onrender.com/api/bookings/', {
@@ -656,6 +784,7 @@
                 if(res.ok){
                     notify('Booking successful', 'success');
                     try{
+                        if (paymentMethod == 'stripe'){
                     const paymentRes = await fetch(`https://adefemecommerce.onrender.com/api/payments/initiate`, {
                         method: 'POST',
                         headers: { 
@@ -673,7 +802,12 @@
                                 window.location.href = paymentRes.url;
                             } else {
                                 throw new Error(paymentRes.message || "Payment failed");
-                            }               
+                            } }
+                if (paymentMethod == 'cash on delivery') {
+                    window.location.href = './thankyou.html'
+
+                }
+
             } catch (err) {
                 notify(err.message, 'error');
             }
