@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /thankyou.html
+Allow: /
+
+Sitemap: https://adefemcollections.co.uk/sitemap.xml

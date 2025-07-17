@@ -47,7 +47,7 @@ exports.placeOrder = async (req, res) => {
             from: process.env.EMAIL,
             to: process.env.EMAIL,
             subject: 'Order Placed',
-            text: `Hi ${process.env.EMAIL},\n\nAn order has been placed by "${cart.user.fullName}" in your shop.\n\n Check the dashboard for more details. \n\n Thank you for patronizing Adefem Limited. //link to site`
+            text: `Hi ${process.env.EMAIL},\n\nAn order has been placed by "${cart.user.fullName}" in your shop.\n\n Check the dashboard for more details. \n\n Thank you for patronizing Adefem Limited.`
             };
       
         transporter.sendMail(msg1, (err, info) => {
@@ -58,7 +58,7 @@ exports.placeOrder = async (req, res) => {
             from: process.env.EMAIL,
             to: cart.user.email,
             subject: 'Order Placed',
-            text: `Hi ${cart.user.fullName},\n\nYour order has been placed successfully ,\n\n Check the dashboard for more details \n\n Thank you for patronizing Adefem Limited. //link to site`
+            text: `Hi ${cart.user.fullName},\n\nYour order has been placed successfully ,\n\n Check the dashboard for more details \n\n Thank you for patronizing Adefem Limited.`
             };
       
         transporter.sendMail(msg0, (err, info) => {

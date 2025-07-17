@@ -104,7 +104,7 @@ exports.processing = async (from, to, orderId ) => {
     from: from,
     to: to,
     subject: 'Order processing',
-    text: `Hi ${to},\n\nYour Order (${orderId}) is being processed, please wait for delivery. \n\n Thank you for patronizing Adefem Limited. \\https://adefemlimited.onrender.com/myorders.html`
+    text: `Hi ${to},\n\nYour Order (${orderId}) is being processed, please wait for delivery. \n\n Thank you for patronizing Adefem Limited.`
   };
 
   transporter.sendMail(msg, (err, info) => {
@@ -117,7 +117,7 @@ exports.delivered = async (from, to, orderId ) => {
     from: from,
     to: to,
     subject: 'Order Delivered',
-    text: `Hi ${to},\n\nYour Order (${orderId}) has been delivered successfully. If this order was not delivered to you, please contact us using our contact on our website \n\n Thank you for patronizing Adefem Limited. https://adefemlimited.onrender.com`
+    text: `Hi ${to},\n\nYour Order (${orderId}) has been delivered successfully. If this order was not delivered to you, please contact us using our contact on our website \n\n Thank you for patronizing Adefem Limited.`
   };
 
   transporter.sendMail(msg, (err, info) => {
