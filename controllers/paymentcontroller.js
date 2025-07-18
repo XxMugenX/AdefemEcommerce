@@ -38,7 +38,7 @@ exports.initiatePayment1 = async (req, res) => {
             },
         ],
         success_url: 'https://adefemcollections.co.uk/thankyou.html',
-        cancel_url: 'https://adefemcollections.co.uk/appointments.html',
+        cancel_url: 'https://adefemcollections.co.uk/appointment.html',
         });
         // console.log('here')
         // console.log(session.url);
