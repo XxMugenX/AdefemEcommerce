@@ -16,15 +16,13 @@ const createUser = async (req, res) => {
     } = req.body;
 
     try {
-        // Check if phone or username already exists
-        const existingUser = await User.findOne({
-        $or: [{ phone }, { userName }]
-        });
+        // Check if username already exists
+        const existingUser = await User.findOne({ userName: userName });
 
         if (existingUser) {
-        const field = existingUser.phone === phone ? "Phone number" : "Username";
+        // const field = existingUser.phone === phone ? "Phone number" : "Username";
         return res.status(400).json({
-            message: `${field} is already in use`
+            message: `Username is already in use`
         });
         }
 
