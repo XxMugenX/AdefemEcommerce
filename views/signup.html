@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signup</title>
+    <title>Signup – Adefem Limited</title>
+    <link rel="icon" href="./logo/favicon-32x32.ico" type="image/x-icon" />
+    <meta name="description" content="Secure signup page for Adefem Limited. Access your dashboard or book services.">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -109,6 +111,27 @@
             animation-delay: 0.4s;
         }
 
+        .top-bar {
+            text-align: center;
+            margin-bottom: 15px;
+            }
+
+        .top-bar img {
+            width: 120px;
+            }
+
+        .legal-links {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+            }
+
+        .legal-links a {
+            color: #7a5f3d;
+            text-decoration: underline;
+            margin: 0 8px;
+            }
+
         @keyframes bounce {
             to {
                 transform: translateY(-10px);
@@ -162,7 +185,12 @@
 
 <body>
     <div class="container">
-        <h2>Create Your Account</h2>
+
+        <div class="top-bar">
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo"
+                    style="height: 60px; width: 80px; background-color: transparent;" /></a>
+            <h2>Signup to Adefem Limited</h2>
+        </div>
 
         <!-- 🔔 Notification Area -->
         <div id="notification" class="notification"></div>
@@ -206,6 +234,14 @@
                 <span></span><span></span><span></span>
             </div>
         </form>
+    </div>
+
+    <div class="legal-links">
+        <p style="margin-top: 20px; font-size: 13px; text-align: center;">
+            By logging in, you agree to our
+            <a href="./privacy.html" style="color: #7a5f3d; text-decoration: underline;">Privacy Policy</a> and
+            <a href="./terms.html" style="color: #7a5f3d; text-decoration: underline;">Terms of Service</a>.
+        </p>
     </div>
 
     <script>

@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Login – Adefem Limited</title>
+    <link rel="icon" href="./logo/favicon-32x32.ico" type="image/x-icon" />
+    <meta name="description" content="Secure login page for Adefem Limited. Access your dashboard or book services.">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -29,6 +31,13 @@
             margin-bottom: 25px;
             font-size: 26px;
             color: #3b2f2f;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 4px;
         }
 
         label {
@@ -142,6 +151,27 @@
             }
         }
 
+        .top-bar {
+            text-align: center;
+            margin-bottom: 15px;
+            }
+
+        .top-bar img {
+            width: 120px;
+            }
+
+        .legal-links {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+            }
+
+        .legal-links a {
+            color: #7a5f3d;
+            text-decoration: underline;
+            margin: 0 8px;
+            }
+
         @media (max-width: 600px) {
             body {
                 padding: 16px;
@@ -165,7 +195,11 @@
 
 <body>
     <div class="container">
-        <h2>Login to Your Account</h2>
+        <div class="top-bar">
+            <a href="index.html"> <img src="./img/img32.png" alt="Logo" class="logo"
+                    style="height: 60px; width: 80px; background-color: transparent;" /></a>
+            <h2>Login to Adefem Limited</h2>
+        </div>
         <form id="loginForm">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required />
@@ -189,6 +223,14 @@
 
             <div id="message" class="notification"></div>
         </form>
+    </div>
+
+    <div class="legal-links">
+        <p style="margin-top: 20px; font-size: 13px; text-align: center;">
+            By logging in, you agree to our
+            <a href="./privacy.html" style="color: #7a5f3d; text-decoration: underline;">Privacy Policy</a> and
+            <a href="./terms.html" style="color: #7a5f3d; text-decoration: underline;">Terms of Service</a>.
+        </p>
     </div>
 
     <script>
