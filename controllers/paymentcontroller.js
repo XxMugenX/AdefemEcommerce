@@ -222,11 +222,17 @@ exports.handleWebhook = async (req, res) => {
         payment.currency = data.currency || "NGN"; //change to GBP when in production
         await payment.save();
 
+        const booking = await Booking.findById(payment. order);
+
         const order = await Order.findById(payment.order);
         if (order) {
             order.status = "Paid";
             await order.save();
         }
+        if (booking) {
+           booking.status = "Paid";
+           await booking.save();
+           }
         }
     }
 
