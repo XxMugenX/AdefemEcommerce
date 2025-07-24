@@ -1,3 +1,21 @@
+[[redirects]]
+  from = "http://adefemcollections.co.uk/*"
+  to = "https://adefemcollections.co.uk/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.adefemcollections.co.uk/*"
+  to = "https://adefemcollections.co.uk/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.adefemcollections.co.uk/*"
+  to = "https://adefemcollections.co.uk/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*.html"
   [headers.values]
