@@ -22,6 +22,8 @@
             color: #3b2f2f;
         }
 
+        
+
         .notification {
             
             display: none;
@@ -59,7 +61,11 @@
         .navbar-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 20px;
+        }
+
+        .navbar-right{
+            justify-content: space-between;
         }
 
         .logo {
@@ -101,6 +107,8 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 0 8px rgba(212, 177, 122, 0.2);
+            height: 300px;
+            margin-bottom: 20px;
             }
 
         .deal-card img {
@@ -170,6 +178,23 @@
             }
         }
 
+        .a{
+            margin-top: 0;
+            width: fit-content;
+            height: fit-content;
+            padding: 10px;
+            font-weight: 600;
+            font-size: larger;
+            align-items: center;
+        }
+
+        .a:hover {
+            background-color: #f5f1eadc;
+            color: #3b2f2f;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
         .hero-text {
             position: absolute;
             top: 50%;
@@ -207,6 +232,12 @@
             justify-content: center;
             gap: 30px;
             margin-bottom: 40px;
+        }
+
+        .content{
+            position: absolute;
+            bottom: 4%;
+            width: 90%;
         }
 
         .card {
@@ -307,6 +338,55 @@
             padding-top: 10px;
         }
 
+        @media (max-width: 950px) {
+            .navbar {
+                position: sticky;
+                top: 0;
+                padding: 10px 10px;
+                z-index: 999;
+                flex-wrap: wrap;
+            }
+
+            .navbar-right {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .navbar-right.show {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .navbar-left {
+                /* width: 100%; */
+                justify-content: space-between;
+            }
+            
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
+            }
+
+            .card {
+                flex: 1 1 100%;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                gap: 20px;
+            }
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 position: sticky;
@@ -375,11 +455,11 @@
         </div>
 
         <div class="navbar-right" id="navbarRight">
-            <a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a>
-            <a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a>
-            <a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a>
-            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
-            <a href="email.html"><i class="fas fa-envelope"></i> Email Us</a>
+        <div class="a"><a href="appointment.html"><i class="fas fa-cut"></i> Book an Appointment</a></div>
+        <div class="a"><a href="products.html"><i class="fas fa-shopping-bag"></i> Products</a></div>
+        <div class="a"><a href="myorders.html"><i class="fas fa-receipt"></i> My Orders</a></div>
+        <div class="a"><a href="about.html"><i class="fas fa-info-circle"></i> About</a></div>
+        <div class="a"><a href="email.html"><i class="fas fa-envelope"></i> Email Us</a></div>          
         </div>
     </div>
     <div class="notification" id="notification"></div>
@@ -389,15 +469,16 @@
         <img class="slide active"
             src="./img/img30 (1).jpg" alt="Slide 1" />
         <img class="slide" src="./img/t1 (3).jpg"
-            alt="Slide 2" />
+            alt="Slide 2" loading = "lazy" />
         <img class="slide" src="./img/img30 (2).jpg"
-            alt="Slide 3" />
+            alt="Slide 3" loading = "lazy" />
         <img class="slide" src="./img/t1 (2).jpg" 
-            alt="Slide 4" />
+            alt="Slide 4" loading = "lazy"/>
 
         <div class="hero-text">
             <h1>Adefem Limited</h1>
-            <p>Your Home of Beauty</p>
+            <p><strong>Your Home of Beauty</strong> For <strong>Salon Perfect Styles</strong> to <strong>Quality Hair Products </strong></p>
+            <!-- <p>From Salon Perfect Styles to Quality Hair Products. It's Just a Click Away </p> -->
         </div>
     </div>
 
@@ -427,12 +508,12 @@
             <h2>Featured Products</h2>
             <div class="product-grid">
                 <a href="products.html"><img src="./img/img8.png"
-                        alt="Hair Oil" /></a>
+                        alt="Hair Oil" style="height: 180px;"/></a>
                 <a href="products.html"><img src="./img/img17.jpg"
-                        alt="Hair Syrup" /></a>
-                <a href="products.html"><img src="./img/img10.png" alt="Shampoo" /></a>
+                        alt="Hair Syrup" style="height: 180px;"/></a>
+                <a href="products.html"><img src="./img/img10.png" alt="Shampoo" style="height: 180px;"/></a>
                 <a href="products.html"><img src="./img/img4.png"
-                        alt="Hair Conditioner" /></a>
+                        alt="Hair Conditioner" style="height: 180px;"/></a>
             </div>
         </div>
 
@@ -440,10 +521,10 @@
             <h2>New Arrivals</h2>
             <div class="product-grid">
                 <a href="products.html"><img src="./img/img5.png"
-                        alt="Hair Straightener" /></a>
-                <a href="products.html"><img src="./img/img15.png" alt="Hair Growth Shampoo" /></a>
-                <a href="products.html"><img src="./img/img25.jpg" alt="Goddess Braid Extention" /></a>
-                <a href="products.html"><img src="./img/img1.png" alt="Hair Cream" /></a>
+                        alt="Hair Straightener" style="height: 180px;" loading = "lazy"/></a>
+                <a href="products.html"><img src="./img/img15.png" alt="Hair Growth Shampoo" style="height: 180px;" loading = "lazy"/></a>
+                <a href="products.html"><img src="./img/img25.jpg" alt="Goddess Braid Extention" style="height: 180px;" loading = "lazy"/></a>
+                <a href="products.html"><img src="./img/img1.png" alt="Hair Cream" style="height: 180px;" loading = "lazy"/></a>
             </div>  
         </div>
     </section>
@@ -454,35 +535,41 @@
         <div class="product-grid">
             <div class="deal-card">
                 <a href="products.html">
-                    <img src="./img/img26.jpg" alt="Attachment" />
+                    <img src="./img/img26.jpg" alt="Attachment" loading = "lazy" />
                 </a>
                 <div class="deal-discount">20% OFF</div>
+                <div class="content">
                 <div class="deal-price">
                     <del>£50</del> £40
                 </div>
                 <div class="deal-timer" id="timer1">Loading...</div>
+                </div>
             </div>
     
             <div class="deal-card">
                 <a href="products.html">
-                    <img src="./img/img9.png" alt="Hair Oil" />
+                    <img src="./img/img9.png" alt="Hair Oil" style="height: 80%;" loading = "lazy"/>
                 </a>
                 <div class="deal-discount">30% OFF</div>
+                <div class="content">
                 <div class="deal-price">
                     <del>4.5</del> £3
                 </div>
                 <div class="deal-timer" id="timer2">Loading...</div>
+                </div>
             </div>
     
             <div class="deal-card">
                 <a href="products.html">
-                    <img src="./img/img23.jpg" alt="Braids" />
+                    <img src="./img/img23.jpg" alt="Braids" loading = "lazy"/>
                 </a>
                 <div class="deal-discount">15% OFF</div>
+                <div class="content">
                 <div class="deal-price">
                     <del>£53</del> £45
                 </div>
                 <div class="deal-timer" id="timer3">Loading...</div>
+                </div>
             </div>
         </div>
     </section>
