@@ -1,0 +1,19 @@
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+# Match all PNG, JPG, SVG, CSS, JS, etc. anywhere in the site
+[[headers]]
+  for = "/*.@(jpg|jpeg|png|svg|webp|gif|css|js)"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, immutable"
