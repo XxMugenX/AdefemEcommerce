@@ -1,0 +1,103 @@
+body {
+            background: #fffaf4;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .reset-container {
+            background: #fff;
+            padding:1.8rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .back-btn {        
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            color: #d4b17a;
+            font-size: 0.8rem;
+            cursor: pointer;
+            /* padding: 2px 8px; */
+            margin: 0px;
+            border-radius: 6px;
+
+            a{
+                text-decoration: none;
+            }
+        }
+
+        .notification {
+            
+            display: none;
+            padding: 8px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .notification.success {
+            background: #42c474;
+            color: #fff;
+        }
+
+        .notification.error {
+            background: #b94b4b;
+            color: #fff;
+        }
+
+        .reset-container h2 {
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+            font-size: 1rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #f7fafc;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            border-color: #d4b17a;
+            outline: none;
+        }
+        .reset-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: #d4b17a;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .reset-btn:hover {
+            background: #d4b17a;
+        }
+        .note {
+            margin-top: 1rem;
+            color: #718096;
+            font-size: 0.95rem;
+            text-align: center;
+        }

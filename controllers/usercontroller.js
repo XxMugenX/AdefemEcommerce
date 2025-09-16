@@ -1,6 +1,7 @@
 const User = require("../models/user.model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sendMail = require("../utils/sendemail.js");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -128,4 +129,106 @@ const checkUsername = async (req, res) => {
     }
 };
 
-module.exports = {getUsers, getUser, createUser, checkUsername, loginUser}
+const getOtp = async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({email: email});
+    if (!user) {
+        return res.status(404).json({
+            message: "User not found"
+        });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
+    const hashedOtp =  await bcrypt.hash(otp.toString(), 10); // Hash the OTP for security
+    user.otpExpires = Date.now() + 15 * 60 * 1000; // Set OTP expiration time (15 minutes)
+
+    user.otpExpires
+    user.otp = hashedOtp; // Store hashed OTP in user document
+
+    await user.save(); 
+
+    // Send OTP via email
+    await sendMail.OTP(
+        process.env.EMAIL,
+        email,
+        otp
+    );
+
+    return res.status(200).json({
+        message: `OTP sent to email successfully`,
+    });
+}
+
+const verifyOtp = async (req, res) => {
+    const { email, OTP } = req.body
+    
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
+        return res.status(404).json({
+            message : "User not found"
+        })
+    }
+
+    if (Date.now() > user.otpExpires) {
+        return res.status(401).json({
+            message : "OTP has already expired"
+        })
+    }
+
+    const isMatch = await bcrypt.compare(OTP, user.otp)
+
+    if (!isMatch) {
+        return res.status(401).json({
+            message : "OTP does not match"
+        })
+    }
+
+    user.otpVerified = true;
+    await user.save();
+
+    return res.status(200).json({
+        message : "successful"
+    })
+}
+
+const changePassword = async (req, res) => {
+    const { email, newPassword } = req.body
+    
+    const user = await User.findOne({ email: email });
+    console.log(email)
+
+    if (!user) {
+        return res.status(404).json({
+            message : "User not found"
+        })
+    }
+
+    if (Date.now() > user.otpExpires) {
+        return res.status(401).json({
+            message : "OTP has already expired"
+        })
+    }
+
+    if (user.otpVerified == false) {
+        return res.status(401).json({
+            message : "OTP not verified"
+        })
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedNewPassword;
+    user.otp = null
+    user.otpExpires = null
+    user.otpVerified = false
+
+    await user.save();
+    console.log('success')
+    res.status(200).json({
+        message : "successful"
+    })
+    
+}
+
+module.exports = {getUsers, getUser, createUser, checkUsername, loginUser, getOtp , changePassword, verifyOtp};

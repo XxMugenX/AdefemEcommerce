@@ -36,6 +36,17 @@ const userSchema = new schema({
             type: Date,
             default: Date.now
         },
+        otp: {
+            type: String,
+            required: false
+        },
+        otpExpires: {
+            type : Date   
+        },
+        otpVerified: {
+            type: Boolean,
+            default: false
+        },
         role: {
             type: String,
             enum: ['customer', 'admin'],

@@ -1,0 +1,106 @@
+   body {
+            background: #fffaf4;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .verify-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            max-width: 350px;
+            width: 100%;
+            position: relative;
+        }
+
+         .notification {
+            
+            display: none;
+            padding: 8px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .notification.success {
+            background: #42c474;
+            color: #fff;
+        }
+
+        .notification.error {
+            background: #b94b4b;
+            color: #fff;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            color: #d4b17a;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 2px 8px;
+            border-radius: 6px;
+
+            a{
+                text-decoration: none;
+            }
+        }
+        .resend-section {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+        .resend-section a {
+            color: #d4b17a;
+            text-decoration: none;
+            margin-left: 0.5em;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .resend-section a:hover {
+            text-decoration: underline;
+        }
+        .verify-container h2 {
+            margin-bottom: 1rem;
+            color: #2d3748;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .verify-container p {
+            color: #4a5568;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .verify-container input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+            box-sizing: border-box;
+        }
+        .verify-container button {
+            width: 100%;
+            padding: 0.75rem;
+            background: #d4b17a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease ;
+        }
+        .verify-container button:hover {
+            background: #c5ac84;
+        }

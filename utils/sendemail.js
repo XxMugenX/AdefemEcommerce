@@ -125,3 +125,17 @@ exports.delivered = async (from, to, orderId ) => {
     else console.log('Reminder sent to', email);
   });
 }
+
+exports.OTP = async (from, to, randompass) => {
+  const msg = {
+    from: from,
+    to: to,
+    subject: 'Password OTP',
+    text: `Hi ${to},\n\nYou have requested for a change of password.\n\nYour OTP is : ${randompass}.\n\n. This OTP is only valid for the next 15 minutes`
+  };
+
+  transporter.sendMail(msg, (err, info) => {
+    if (err) console.error('Failed to send:', err);
+    else console.log('Reminder sent to', email);
+  });
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your OTP</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+   
+    <div class="verify-container">
+        <div class="notification" id="notification"></div>
+        <p class="back-btn"><a href="../password/otp.html">&#8592; Back</a></p>
+        <h2>Verify Your Email</h2>
+        <p>Please enter the verification code sent to your email.</p>
+        <form>
+            <input type="text" id="otp" name="code" placeholder="Verification Code" required>
+            <button type="submit">Verify</button>
+        </form>
+        <div class="resend-section">
+            <span>Not received yet?</span>
+            <a href="../password/index.html">Request another verification code</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.querySelector('form');
+        const OTP = document.getElementById('otp');
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+
+        function notify(msg, type) {
+                const n = document.getElementById('notification');
+                n.textContent = msg;
+                n.className = `notification ${type}`;
+                n.style.display = 'block';
+                setTimeout(() => n.style.display = 'none', 3000);
+            }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (OTP.value) {
+                const result = await fetch('https://adefemecommerce.onrender.com/api/users/verifyOtp', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email: email, OTP: OTP.value})
+                });
+
+                const resultData = await result.json();
+                console.log(resultData);
+                if(result.ok){
+                    sessionStorage.setItem('email', email)
+                    notify('OTP verified successfully.', 'success');
+                    window.location.href = `../change/reset-password.html?email=${email}`;
+                } else {
+                    notify(`${resultData.message}`, "error");
+                }
+            } else {
+                notify('Please enter the verification code.', 'error');
+            }
+        });
+
+        
+
+    </script>
+
+</body>
+</html>
